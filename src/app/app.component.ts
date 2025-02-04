@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HeaderAdminComponent } from "./header-admin/header-admin.component";
 import { SidebarAdminComponent } from "./sidebar-admin/sidebar-admin.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FooterComponent } from "./footer/footer.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [HeaderAdminComponent, SidebarAdminComponent, DashboardComponent, FooterComponent],
+  imports: [HeaderAdminComponent, SidebarAdminComponent, RouterOutlet, FooterComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

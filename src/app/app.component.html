@@ -1,14 +1,14 @@
 <!-- app.component.html -->
 <div class="container-scroller">
-    <app-header-admin></app-header-admin>
-    <div class="container-fluid page-body-wrapper">
-      <app-sidebar-admin></app-sidebar-admin>
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <!-- Your main content goes here -->
-           <app-dashboard></app-dashboard>
-        </div>
-        <app-footer></app-footer>
+  <app-header-admin></app-header-admin>
+  <div class="container-fluid page-body-wrapper">
+    <app-sidebar-admin></app-sidebar-admin>
+    <div class=" main-panel">
+      <div class="  content-wrapper">
+        <!-- Your main content goes here -->
+      <router-outlet></router-outlet>
       </div>
+      <app-footer></app-footer>
     </div>
   </div>
+</div>
