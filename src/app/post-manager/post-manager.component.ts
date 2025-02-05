@@ -1,17 +1,16 @@
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import * as bootstrap from 'bootstrap';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Chart, registerables } from 'chart.js';
 
 
 @Component({
-  selector: 'app-user-manager',
-  templateUrl: './user-manager.component.html',
-  styleUrls: ['./user-manager.component.scss'],
+  selector: 'app-post-manager',
   imports: [CommonModule,RouterLink,RouterLinkActive],
+  templateUrl: './post-manager.component.html',
+  styleUrl: './post-manager.component.scss'
 })
-export class UserManagerComponent implements OnInit, AfterViewInit {
+export class PostManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('myModal') myModal!: ElementRef;
   private deleteModal: bootstrap.Modal | null = null;
 
@@ -103,3 +102,4 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     });
   }
 }
+

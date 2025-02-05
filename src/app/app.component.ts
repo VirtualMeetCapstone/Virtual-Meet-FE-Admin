@@ -5,6 +5,7 @@ import { SidebarAdminComponent } from "./sidebar-admin/sidebar-admin.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FooterComponent } from "./footer/footer.component";
 import { CommonModule } from '@angular/common';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 @Component({
   selector: 'app-root',

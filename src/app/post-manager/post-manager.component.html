@@ -1,4 +1,4 @@
-<canvas class="container-xl" id="myLineChart" style="height: 600px; margin-top: 50px;"></canvas>
+<canvas class="container-xl" id="myLineChart" style="height: 400px;"></canvas>
 
 <div class="container-xl content">
     <div class="table-responsive">
@@ -6,7 +6,7 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-4">
-                        <h2>User <b>Management</b></h2>
+                        <h2>Post <b>Management</b></h2>
                     </div>
                     <!-- <div class="col-sm-8">						
                         <a href="#" class="btn btn-primary"><i class="material-icons">&#xE863;</i> <span>Refresh List</span></a>
@@ -62,8 +62,8 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Customer</th>
-                        <th>Location</th>
+                        <th>User</th>
+                        <th>Content</th>
                         <th>Create Date</th>						
                         <th>Status</th>		
                         <th>Detail</th>
@@ -78,8 +78,8 @@
                         <td>London</td>
                         <td>Jun 15, 2017</td>                        
                         <td><span class="status text-success">&bull;</span> Active</td>
-                        <td><a routerLink="/user-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-                        <td><button (click)="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
+                        <td><a routerLink="/post-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
+                        <td><button onclick="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
 
                     </tr>
                     <tr>
@@ -88,8 +88,8 @@
                         <td>Madrid</td>                       
                         <td>Jun 21, 2017</td>
                         <td><span class="status text-info">&bull;</span> Active</td>
-                        <td><a routerLink="/user-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-                        <td><button (click)="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
+                        <td><a routerLink="/post-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
+                        <td><button onclick="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
 
                     </tr>
                     <tr>
@@ -98,8 +98,8 @@
                         <td>Berlin</td>
                         <td>Jul 04, 2017</td>
                         <td><span class="status text-danger">&bull;</span> Inactive</td>
-                        <td><a routerLink="/user-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-                        <td><button (click)="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
+                        <td><a routerLink="/post-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
+                        <td><button onclick="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
 
                     </tr>
                     <tr>
@@ -108,8 +108,8 @@
                         <td>New York</td>
                         <td>Jul 16, 2017</td>						
                         <td><span class="status text-warning">&bull;</span> Pending</td>
-                        <td><a routerLink="/user-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-                        <td><button (click)="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
+                        <td><a routerLink="/post-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
+                        <td><button onclick="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
 
                     </tr>
                     <tr>
@@ -118,9 +118,8 @@
                         <td>Paris</td>
                         <td>Aug 04, 2017</td>
                         <td><span class="status text-success">&bull;</span> Active</td>
-                        <td><a routerLink="/user-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-                        <td><button (click)="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
-
+                        <td><a routerLink="/post-detail" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
+                        <td><button onclick="delete1()" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -141,11 +140,13 @@
         </div>
     </div>        
 </div> 
-<div id="myModal" class="modal" #myModal>
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
-      <p>Are you sure you want to delete?</p>
-      <button (click)="confirmDelete()">Yes</button>
-      <button (click)="closeModal()">No</button>
+<div class="modal" id="myModal">
+    <div class="modal-content" style="width: 30%;">
+        <h5 style=" margin-bottom: 20px;">Do you want to delete?</h5>
+        <div class="d-flex btnlogout">
+            <button onclick="yes()" type="button" class="btn btn-warning">Yes</button>
+            <button onclick="no()" type="button" class="btn btn-success">No</button>
+        </div>
     </div>
-  </div>
+
+</div>
