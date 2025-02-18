@@ -5,13 +5,15 @@ import { SidebarAdminComponent } from "./sidebar-admin/sidebar-admin.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FooterComponent } from "./footer/footer.component";
 import { CommonModule } from '@angular/common';
-import { UserDetailComponent } from './user-detail/user-detail.component';
+import { provideHttpClient } from '@angular/common/http'; // Import provideHttpClient
 
 @Component({
   selector: 'app-root',
+  standalone: true, 
   imports: [HeaderAdminComponent, SidebarAdminComponent, RouterOutlet, FooterComponent, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'], // Corrected from styleUrl to styleUrls
+
 })
 export class AppComponent {
   title = 'Virtual-Meet-FE-Admin-main';

@@ -3,28 +3,36 @@ import { Chart, registerables } from 'chart.js';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import * as bootstrap from 'bootstrap';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-
-
+import { UserService } from '../Service/user-service/user-service.service'; 
+import { Observable } from 'rxjs';
+import { User } from '../model/user';
 @Component({
   selector: 'app-user-manager',
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.scss'],
-  imports: [CommonModule,RouterLink,RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
 })
 export class UserManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('myModal') myModal!: ElementRef;
   private deleteModal: bootstrap.Modal | null = null;
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    Chart.register(...registerables); // Register chart.js components
+ 
+  public users: User[] = [];
+  public userData : User[] = [];
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private userService: UserService,  
+  ) {
+    Chart.register(...registerables); 
   }
 
   ngOnInit(): void {
+    this.loadUsers(); 
+    
+    console.log("user data", this.userData);
     if (isPlatformBrowser(this.platformId)) {
-      // Only initialize modal instance in the browser environment
       import('bootstrap').then(bootstrap => {
-        const modalElement = this.myModal.nativeElement; // Use ViewChild to get the modal element
-        this.deleteModal = new bootstrap.Modal(modalElement); // Store the modal instance
+        const modalElement = this.myModal.nativeElement;
+        this.deleteModal = new bootstrap.Modal(modalElement);
       }).catch(error => {
         console.error('Error loading Bootstrap:', error);
       });
@@ -32,35 +40,47 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Initialize the chart after view is loaded
     this.createChart();
   }
 
-  // Delete user function (open modal)
-  delete1() {
-    if (this.deleteModal) {
-      this.deleteModal.show(); // Show the modal using the cached modal instance
-    } else {
-      console.error('Modal instance is not available');
-    }
-  }
-
-  // Close the modal
-  closeModal(): void {
-    if (this.deleteModal) {
-      this.deleteModal.hide(); // Use the cached modal instance
-    } else {
-      console.error('Modal instance is not available');
-    }
-  }
-
-  // Confirm deletion (you can implement actual delete logic here)
-  confirmDelete() {
-    console.log('Item deleted');
-    this.closeModal(); // Close the modal after confirmation
+  // Method to load user data
+  private loadUsers() {
+    this.userService.getUsers().subscribe((data: any) => {
+      console.log("user", data);
+      
+     
+      if (Array.isArray(data)) {
+        this.users = data;
+      } else {
+        this.users = data?.data || []; 
+      }
+  
+      this.userData = this.users;
+    });
   }
   
-  // Create the Line Chart
+
+  delete1() {
+    if (this.deleteModal) {
+      this.deleteModal.show();
+    } else {
+      console.error('Modal instance is not available');
+    }
+  }
+
+  closeModal(): void {
+    if (this.deleteModal) {
+      this.deleteModal.hide();
+    } else {
+      console.error('Modal instance is not available');
+    }
+  }
+
+  confirmDelete() {
+    console.log('Item deleted');
+    this.closeModal();
+  }
+  
   createChart() {
     const ctx = document.getElementById('myLineChart') as HTMLCanvasElement;
     new Chart(ctx.getContext('2d')!, {
