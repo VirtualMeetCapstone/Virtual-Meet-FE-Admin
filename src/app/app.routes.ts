@@ -12,12 +12,13 @@ import { PostManagerComponent } from './post-manager/post-manager.component';
 
 export const routes: Routes = [
     {path: "" , component: DashboardComponent },
+
     {path: "user-manager" , component: UserManagerComponent },
     {path: "room-manager" , component: RoomManagerComponent },
     {path: "post-manager" , component: PostManagerComponent },
-    {path: "user-detail" , component: UserDetailComponent },
-    {path: "room-detail" , component: RoomDetailComponent },
-    {path: "post-detail" , component: PostDetailComponent },
+    {path: 'user-detail/:id' , component: UserDetailComponent },
+    {path: "room-detail/:id" , component: RoomDetailComponent },
+    {path: "post-detail/:id" , component: PostDetailComponent },
 
     
 ];
