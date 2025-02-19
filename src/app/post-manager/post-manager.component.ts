@@ -2,6 +2,11 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
+import { Post } from '../model/post';
+import { PostServiceService } from '../Service/post-service/post-service.service';
+import { UserService } from '../Service/user-service/user-service.service';
+import { User } from '../model/user';
+import { Modal } from 'bootstrap';
 
 
 @Component({
@@ -13,51 +18,123 @@ import { Chart, registerables } from 'chart.js';
 export class PostManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('myModal') myModal!: ElementRef;
   private deleteModal: bootstrap.Modal | null = null;
+ public posts: Post[] = [];
+ public postData: Post[] = [];
+ selectedPostId: string | null = null; 
+ public userMap: Map<string, User> = new Map();
+ private modalInstanceDelete: bootstrap.Modal | null = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private postService: PostServiceService, private userService: UserService) {
     Chart.register(...registerables); // Register chart.js components
   }
 
   ngOnInit(): void {
+    this.loadPosts();
+    this.loadUsers();
     if (isPlatformBrowser(this.platformId)) {
       // Only initialize modal instance in the browser environment
       import('bootstrap').then(bootstrap => {
-        const modalElement = this.myModal.nativeElement; // Use ViewChild to get the modal element
-        this.deleteModal = new bootstrap.Modal(modalElement); // Store the modal instance
+        setTimeout(() => { 
+          const deleteModal = document.getElementById('deleteModal');
+          if (deleteModal) {
+            this.modalInstanceDelete = new bootstrap.Modal(deleteModal);
+          } else {
+            console.error('Modal element not found');
+          }
+        }, 100); 
       }).catch(error => {
         console.error('Error loading Bootstrap:', error);
       });
+      
     }
   }
+  private loadPosts():void {
+    this.postService.getPosts().subscribe((data: any)=>{
+      if(Array.isArray(data))
+      {
+        this.postData = data;
+
+      }else 
+      {
+        this.postData = data?.data || []
+      }
+    })
+  }
+  private loadUsers(): void {
+    this.userService.getUsers().subscribe((response: any) => {
+      console.log("Response from UserService:", response); // Log the response to check its structure
+  
+      // Handle the response and ensure it's an array of users
+      if (Array.isArray(response)) {
+        response.forEach((user: User) => {
+          this.userMap.set(user.id, user);
+        });
+      } else if (response && Array.isArray(response.data)) {
+        response.data.forEach((user: User) => {
+          this.userMap.set(user.id, user);
+        });
+      } else {
+        console.error("Unexpected response format:", response);
+      }
+    });
+  }
+  
+
 
   ngAfterViewInit(): void {
     // Initialize the chart after view is loaded
     this.createChart();
   }
 
-  // Delete user function (open modal)
-  delete1() {
-    if (this.deleteModal) {
-      this.deleteModal.show(); // Show the modal using the cached modal instance
+  // Delete post function (open modal)
+  delete1(postId: string): void {
+    this.selectedPostId = postId;
+    if (this.modalInstanceDelete) {
+      this.modalInstanceDelete.show(); 
+      console.log("modal ne" ,this.modalInstanceDelete)
     } else {
       console.error('Modal instance is not available');
     }
   }
 
   // Close the modal
-  closeModal(): void {
-    if (this.deleteModal) {
-      this.deleteModal.hide(); // Use the cached modal instance
-    } else {
-      console.error('Modal instance is not available');
+   closeModal(): void {
+     const modalElement = document.getElementById('deleteModal');
+     if (modalElement) {
+       const modalInstance = Modal.getInstance(modalElement);
+       if (modalInstance) {
+         modalInstance.hide();
+         this.removeBackdrop(); 
+       }
+     }
+   }
+   private removeBackdrop(): void {
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+      backdrop.remove();
     }
   }
-
   // Confirm deletion (you can implement actual delete logic here)
-  confirmDelete() {
-    console.log('Item deleted');
-    this.closeModal(); // Close the modal after confirmation
-  }
+  confirmDelete(): void {
+    if (!this.selectedPostId) {
+        console.error('No room ID selected for deletion.');
+        return;
+    }
+
+    console.log(`Deleting room with ID: ${this.selectedPostId}`);
+
+    this.postService.deletePost(this.selectedPostId).subscribe(response => {
+        console.log('Room deleted:', response);
+
+        
+        this.postData = this.postData.filter(post => post.id !== this.selectedPostId);
+        this.selectedPostId = null; 
+        this.closeModal();
+    }, error => {
+        console.error('Error deleting room:', error);
+    });
+}
+
   
   // Create the Line Chart
   createChart() {

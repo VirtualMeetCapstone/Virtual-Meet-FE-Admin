@@ -74,7 +74,7 @@
                 <tbody *ngIf="userData">
                     <tr *ngFor="let item of userData">
                         
-                        <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><img [src]="item.picture" class="avatar" alt="Avatar"> {{item.name}} </a></td>
+                        <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><img [src]="item.picture.url" class="avatar" alt="Avatar"> {{item.name}} </a></td>
                         <td>London</td>
                         <td>Jun 15, 2017</td>                        
                         <td><span class="status text-success">&bull;</span> Active</td>
