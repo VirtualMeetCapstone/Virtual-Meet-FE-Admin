@@ -23,7 +23,10 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
  selectedPostId: string | null = null; 
  public userMap: Map<string, User> = new Map();
  private modalInstanceDelete: bootstrap.Modal | null = null;
-
+ totalItems = 0; 
+ itemsPerPage = 5; 
+ currentPage = 1;
+ public isLoading = false;
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private postService: PostServiceService, private userService: UserService) {
     Chart.register(...registerables); // Register chart.js components
   }
@@ -48,18 +51,38 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
       
     }
   }
-  private loadPosts():void {
-    this.postService.getPosts().subscribe((data: any)=>{
-      if(Array.isArray(data))
-      {
-        this.postData = data;
+  private loadPosts(): void {
+    this.isLoading = true;
+    const skip = (this.currentPage - 1) * this.itemsPerPage;
+    const top = this.itemsPerPage;
 
-      }else 
-      {
-        this.postData = data?.data || []
+    this.postService.getPosts(skip, top).subscribe((response: any) => {
+      this.isLoading = false;
+      if (Array.isArray(response.data)) {
+        this.postData = response.data;
+        this.totalItems = response.totalCount || response.data.length;
+      } else {
+        console.error('Unexpected response format:', response);
       }
-    })
+    }, error =>{
+      this.isLoading = false;
+      console.error ("Error loading posts: ", error);
+    });
   }
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.itemsPerPage);
+  }
+  
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadPosts();
+  }
+  setPage(page: number) {
+    if (page < 1 || page > this.totalPages) return; // Kiểm tra giới hạn trang
+    this.currentPage = page;
+    this.loadPosts(); // Gọi API để lấy dữ liệu mới
+  }
+  
   private loadUsers(): void {
     this.userService.getUsers().subscribe((response: any) => {
       console.log("Response from UserService:", response); // Log the response to check its structure
