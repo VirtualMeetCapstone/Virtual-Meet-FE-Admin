@@ -19,7 +19,7 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   public users: User[] = [];
   public userData : User[] = [];
   totalItems = 0; 
- itemsPerPage = 15; 
+ itemsPerPage = 5; 
  currentPage = 1;
  public isLoading = false;
   constructor(
@@ -76,11 +76,41 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     this.loadUsers();
   }
   setPage(page: number) {
-    if (page < 1 || page > this.totalPages) return; // Kiểm tra giới hạn trang
+    if (page < 1 || page > this.totalPages) return; 
     this.currentPage = page;
-    this.loadUsers(); // Gọi API để lấy dữ liệu mới
+    this.loadUsers(); 
   }
-
+  get paginationRange(): (number | string)[] {
+    const totalPages = this.totalPages;
+    const currentPage = this.currentPage;
+    const range: (number | string)[] = [];
+  
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        range.push(i);
+      }
+    } else {
+      range.push(1);
+      if (currentPage > 4) {
+        range.push('...');
+      }
+      const start = Math.max(2, currentPage - 2);
+      const end = Math.min(totalPages - 1, currentPage + 2);
+      for (let i = start; i <= end; i++) {
+        range.push(i);
+      }
+      if (currentPage < totalPages - 3) {
+        range.push('...');
+      }
+      range.push(totalPages);
+    }
+    return range;
+  }
+  onPageClick(page: number | string) {
+    if (typeof page === 'number') {
+      this.setPage(page);
+    }
+  }
   delete1() {
     if (this.deleteModal) {
       this.deleteModal.show();

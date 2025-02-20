@@ -78,16 +78,44 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
     this.loadPosts();
   }
   setPage(page: number) {
-    if (page < 1 || page > this.totalPages) return; // Kiểm tra giới hạn trang
+    if (page < 1 || page > this.totalPages) return; 
     this.currentPage = page;
-    this.loadPosts(); // Gọi API để lấy dữ liệu mới
+    this.loadPosts(); 
   }
+  get paginationRange(): (number | string)[] {
+    const totalPages = this.totalPages;
+    const currentPage = this.currentPage;
+    const range: (number | string)[] = [];
   
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        range.push(i);
+      }
+    } else {
+      range.push(1);
+      if (currentPage > 4) {
+        range.push('...');
+      }
+      const start = Math.max(2, currentPage - 2);
+      const end = Math.min(totalPages - 1, currentPage + 2);
+      for (let i = start; i <= end; i++) {
+        range.push(i);
+      }
+      if (currentPage < totalPages - 3) {
+        range.push('...');
+      }
+      range.push(totalPages);
+    }
+    return range;
+  }
+  onPageClick(page: number | string) {
+    if (typeof page === 'number') {
+      this.setPage(page);
+    }
+  }
   private loadUsers(): void {
     this.userService.getUsers().subscribe((response: any) => {
-      console.log("Response from UserService:", response); // Log the response to check its structure
-  
-      // Handle the response and ensure it's an array of users
+     
       if (Array.isArray(response)) {
         response.forEach((user: User) => {
           this.userMap.set(user.id, user);

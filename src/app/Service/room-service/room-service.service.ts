@@ -22,6 +22,11 @@ export class RoomServiceService {
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError)); 
   }
+  public getRoomsPaging(skip:number, top : number): Observable<any> {
+    const url = `${this.REST_API_SERVIER}/rooms?Top=${top}&Skip=${skip}`;
+    return this.http.get<any>(url, this.httpOptions)
+      .pipe(catchError(this.handleError)); 
+  }
   public getRoomDetail(id: String): Observable<any> {
     const url =  `${this.REST_API_SERVIER}/rooms/`+id;
     return this.http.get<any>(url, this.httpOptions)
