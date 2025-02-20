@@ -17,8 +17,8 @@ export class PostServiceService {
    constructor(private http: HttpClient) {}
  
  
-   public getPosts(): Observable<any> {
-     const url = `${this.REST_API_SERVIER}/posts`;
+   public getPosts(skip: number, top: number): Observable<any> {
+     const url = `${this.REST_API_SERVIER}/posts?Top=${top}&Skip=${skip}`;
      return this.http.get<any>(url, this.httpOptions)
        .pipe(catchError(this.handleError)); 
    }

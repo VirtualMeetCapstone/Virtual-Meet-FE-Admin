@@ -18,6 +18,10 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
  
   public users: User[] = [];
   public userData : User[] = [];
+  totalItems = 0; 
+ itemsPerPage = 15; 
+ currentPage = 1;
+ public isLoading = false;
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private userService: UserService,  
@@ -44,21 +48,38 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   }
 
   // Method to load user data
-  private loadUsers() {
-    this.userService.getUsers().subscribe((data: any) => {
-      console.log("user", data);
-      
-     
-      if (Array.isArray(data)) {
-        this.users = data;
+  private loadUsers(): void {
+    this.isLoading = true;
+    const skip = (this.currentPage - 1) * this.itemsPerPage;
+    const top = this.itemsPerPage;
+
+    this.userService.getUsersPaging(top, skip).subscribe((response: any) => {
+      this.isLoading = false;
+      if (Array.isArray(response.data)) {
+        this.userData = response.data;
+        this.totalItems = response.totalCount || response.data.length;
       } else {
-        this.users = data?.data || []; 
+        console.error('Unexpected response format:', response);
       }
-  
-      this.userData = this.users;
+    }, error =>{
+      this.isLoading = false;
+      console.error ("Error loading posts: ", error);
     });
   }
   
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.itemsPerPage);
+  }
+  
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.loadUsers();
+  }
+  setPage(page: number) {
+    if (page < 1 || page > this.totalPages) return; // Kiểm tra giới hạn trang
+    this.currentPage = page;
+    this.loadUsers(); // Gọi API để lấy dữ liệu mới
+  }
 
   delete1() {
     if (this.deleteModal) {
