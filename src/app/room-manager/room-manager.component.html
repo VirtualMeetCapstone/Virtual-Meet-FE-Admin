@@ -17,7 +17,9 @@
             <div class="table-filter">
                 <div class="row">
                     <div class="col-sm-3">
-                        
+                        <div *ngIf="isLoading" class="loading-container">
+                            <i class="fa fa-spinner fa-spin"></i> Loading...
+                          </div>
                     </div>
                     <div class="col-sm-9">
                         <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -62,19 +64,28 @@
            
               
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">6</a></li>
-                    <li class="page-item"><a href="#" class="page-link">7</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
+                <div class="hint-text">
+                  Showing <b>{{ roomData.length }}</b> out of <b>{{ totalItems }}</b> entries
+                </div>
+                <ul *ngIf="totalPages > 1" class="pagination">
+                    <!-- Previous -->
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                      <a class="page-link" (click)="setPage(currentPage - 1)">Previous</a>
+                    </li>
+                  
+                    <!-- Dynamic Page Numbers -->
+                    <li class="page-item" *ngFor="let page of paginationRange" [class.active]="page === currentPage">
+                        <a *ngIf="page !== '...'" class="page-link" (click)="onPageClick(page)">{{ page }}</a>
+                        <span *ngIf="page === '...'" class="page-link">...</span>
+                      </li>
+                  
+                    <!-- Next -->
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                      <a class="page-link" (click)="setPage(currentPage + 1)">Next</a>
+                    </li>
+                  </ul>
+                  
+              </div>
             
         </div>
         <div class="modal fade" id="deleteModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
