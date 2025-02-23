@@ -23,7 +23,7 @@ export class RoomServiceService {
       .pipe(catchError(this.handleError)); 
   }
   public getRoomsPaging(skip:number, top : number): Observable<any> {
-    const url = `${this.REST_API_SERVIER}/rooms?Top=${top}&Skip=${skip}`;
+    const url = `${this.REST_API_SERVIER}/rooms?Top=${top}&Skip=${skip}&NeedToTalCount=true`;
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError)); 
   }

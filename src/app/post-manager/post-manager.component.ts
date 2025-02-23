@@ -73,10 +73,7 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
     return Math.ceil(this.totalItems / this.itemsPerPage);
   }
   
-  onPageChange(page: number) {
-    this.currentPage = page;
-    this.loadPosts();
-  }
+  
   setPage(page: number) {
     if (page < 1 || page > this.totalPages) return; 
     this.currentPage = page;
