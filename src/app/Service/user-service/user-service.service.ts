@@ -22,7 +22,7 @@ export class UserService {
     return this.http.get(this.apiUrl);  // Gửi request GET
   }
   public getUsersPaging(top: number, skip: number): Observable<any> {
-    const url = `${this.REST_API_SERVIER}/users?Top=${top}&Skip=${skip}`;
+    const url = `${this.REST_API_SERVIER}/users?Top=${top}&Skip=${skip}&NeedToTalCount=true`;
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError)); 
   }
