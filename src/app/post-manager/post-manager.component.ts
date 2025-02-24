@@ -183,7 +183,9 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
     });
 }
 
-  
+public getUserName(userId: string | undefined): string {
+  return userId ? this.userMap.get(userId)?.name || 'Deleted User' : 'User not found';
+}
   // Create the Line Chart
   createChart() {
     const ctx = document.getElementById('myLineChart') as HTMLCanvasElement;

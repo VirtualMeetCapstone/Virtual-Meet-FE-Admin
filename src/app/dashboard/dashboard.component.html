@@ -248,7 +248,7 @@
                         <td><a href="#" *ngIf="userMap.get(item.userId)">
                             {{userMap.get(item.userId)?.name}}
                           </a></td>
-                        <td>{{item.content}}</td>
+                        <td class="content-cell">{{item.content}}</td>
                         <td>{{item.createTime}}</td>                        
                         <td >{{item.countReaction}}</td>
                         <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>

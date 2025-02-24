@@ -58,14 +58,14 @@ ngOnInit(): void {
     });
   }
   getUserName(userId: string | undefined): string {
-    return userId ? this.userMap.get(userId)?.name || 'User not found' : 'User not found';
+    return userId ? this.userMap.get(userId)?.name || 'Deleted User' : 'User not found';
   }
   getUserBio(userId: string | undefined): string {
-    return userId ? this.userMap.get(userId)?.bio || 'User not found' : 'User not found';
+    return userId ? this.userMap.get(userId)?.bio || 'Deleted User' : 'User not found';
   }
   getUserImage(userId: string | undefined): string {
     const user = userId ? this.userMap.get(userId) : undefined;
-    return user?.picture?.url || 'default-image-url.jpg';
+    return user?.picture?.url || '';
   }
   
   
