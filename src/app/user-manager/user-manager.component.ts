@@ -15,6 +15,8 @@ import { User } from '../model/user';
 export class UserManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('myModal') myModal!: ElementRef;
   private deleteModal: bootstrap.Modal | null = null;
+  private modalInstanceDelete: bootstrap.Modal | null = null;
+  selectedUserId: string | null = null; 
  
   public users: User[] = [];
   public userData : User[] = [];
@@ -34,12 +36,20 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     
     console.log("user data", this.userData);
     if (isPlatformBrowser(this.platformId)) {
+      // Only initialize modal instance in the browser environment
       import('bootstrap').then(bootstrap => {
-        const modalElement = this.myModal.nativeElement;
-        this.deleteModal = new bootstrap.Modal(modalElement);
+        setTimeout(() => { 
+          const deleteModal = document.getElementById('deleteModal');
+          if (deleteModal) {
+            this.modalInstanceDelete = new bootstrap.Modal(deleteModal);
+          } else {
+            console.error('Modal element not found');
+          }
+        }, 100); 
       }).catch(error => {
         console.error('Error loading Bootstrap:', error);
       });
+      
     }
   }
 
@@ -108,27 +118,54 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
       this.setPage(page);
     }
   }
-  delete1() {
-    if (this.deleteModal) {
-      this.deleteModal.show();
-    } else {
-      console.error('Modal instance is not available');
+  // Delete post function (open modal)
+    delete1(userId: string): void {
+      this.selectedUserId = userId;
+      if (this.modalInstanceDelete) {
+        this.modalInstanceDelete.show(); 
+        console.log("modal ne" ,this.modalInstanceDelete)
+      } else {
+        console.error('Modal instance is not available');
+      }
     }
-  }
-
-  closeModal(): void {
-    if (this.deleteModal) {
-      this.deleteModal.hide();
-    } else {
-      console.error('Modal instance is not available');
-    }
-  }
-
-  confirmDelete() {
-    console.log('Item deleted');
-    this.closeModal();
-  }
   
+    // Close the modal
+     closeModal(): void {
+       const modalElement = document.getElementById('deleteModal');
+       if (modalElement) {
+         const modalInstance = bootstrap.Modal.getInstance(modalElement);
+         if (modalInstance) {
+           modalInstance.hide();
+           this.removeBackdrop(); 
+         }
+       }
+     }
+     private removeBackdrop(): void {
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    }
+    // Confirm deletion (you can implement actual delete logic here)
+    confirmDelete(): void {
+      if (!this.selectedUserId) {
+          console.error('No room ID selected for deletion.');
+          return;
+      }
+  
+      console.log(`Deleting room with ID: ${this.selectedUserId}`);
+  
+      this.userService.deleteUser(this.selectedUserId).subscribe(response => {
+          console.log('Room deleted:', response);
+  
+          
+          this.userData = this.userData.filter(user => user.id !== this.selectedUserId);
+          this.selectedUserId = null; 
+          this.closeModal();
+      }, error => {
+          console.error('Error deleting room:', error);
+      });
+  }
   createChart() {
     const ctx = document.getElementById('myLineChart') as HTMLCanvasElement;
     new Chart(ctx.getContext('2d')!, {

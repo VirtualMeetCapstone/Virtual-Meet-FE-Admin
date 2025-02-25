@@ -6,6 +6,7 @@ export interface User {
         type: number;
         thumbnailUrl?: string | null;
     };
+    isDeleted: boolean;
     bio: string,
     followersCount: number
 
