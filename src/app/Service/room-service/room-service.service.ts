@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import {APP_CONSTANTS} from '../../../app/shared/app-constants';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,8 @@ import { catchError, Observable, throwError } from 'rxjs';
 export class RoomServiceService {
   
  
-  private REST_API_SERVIER = 'http://dev-vmeet.runasp.net';
+  private REST_API_SERVER = APP_CONSTANTS.REST_API_SERVIER;
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -18,23 +20,23 @@ export class RoomServiceService {
 
 
   public getRooms(): Observable<any> {
-    const url = `${this.REST_API_SERVIER}/rooms`;
+    const url = `${this.REST_API_SERVER}/rooms`;
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError)); 
   }
   public getRoomsPaging(skip:number, top : number): Observable<any> {
-    const url = `${this.REST_API_SERVIER}/rooms?Top=${top}&Skip=${skip}&NeedToTalCount=true`;
+    const url = `${this.REST_API_SERVER}/rooms?Top=${top}&Skip=${skip}&NeedToTalCount=true`;
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError)); 
   }
   public getRoomDetail(id: String): Observable<any> {
-    const url =  `${this.REST_API_SERVIER}/rooms/`+id;
+    const url =  `${this.REST_API_SERVER}/rooms/`+id;
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError)); 
   }
 
   public deleteRoom(data:string|undefined): Observable<any>{
-    const url = `${this.REST_API_SERVIER}/rooms/`+data;
+    const url = `${this.REST_API_SERVER}/rooms/`+data;
     return this.http
     .delete<any>(url)
       .pipe(catchError(this.handleError)); 
