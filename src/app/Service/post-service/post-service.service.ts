@@ -1,14 +1,14 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-
+import {APP_CONSTANTS} from '../../../app/shared/app-constants';
 @Injectable({
   providedIn: 'root'
 })
 export class PostServiceService {
 
  
-   private REST_API_SERVIER = 'http://dev-vmeet.runasp.net';
+   private REST_API_SERVER = APP_CONSTANTS.REST_API_SERVIER;
    private httpOptions = {
      headers: new HttpHeaders({
        'Content-Type': 'application/json'
@@ -18,18 +18,18 @@ export class PostServiceService {
  
  
    public getPosts(skip: number, top: number): Observable<any> {
-     const url = `${this.REST_API_SERVIER}/posts?Top=${top}&Skip=${skip}&NeedToTalCount=true`;
+     const url = `${this.REST_API_SERVER}/posts?Top=${top}&Skip=${skip}&NeedToTalCount=true`;
      return this.http.get<any>(url, this.httpOptions)
        .pipe(catchError(this.handleError)); 
    }
    public getPostDetail(id: String): Observable<any> {
-     const url =  `${this.REST_API_SERVIER}/posts/`+id;
+     const url =  `${this.REST_API_SERVER}/posts/`+id;
      return this.http.get<any>(url, this.httpOptions)
        .pipe(catchError(this.handleError)); 
    }
  
    public deletePost(data:string|undefined): Observable<any>{
-     const url = `${this.REST_API_SERVIER}/posts/`+data;
+     const url = `${this.REST_API_SERVER}/posts/`+data;
      return this.http
      .delete<any>(url)
        .pipe(catchError(this.handleError)); 
