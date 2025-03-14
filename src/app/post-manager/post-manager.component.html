@@ -1,4 +1,4 @@
-<canvas class="container-xl" id="myLineChart" style="height: 400px;"></canvas>
+<canvas class="container-xl" id="myLineChart" style="height: 400px; margin-top: 30px"></canvas>
 
 <div class="container-xl content">
     <div class="table-responsive">
@@ -8,18 +8,18 @@
                     <div class="col-sm-4">
                         <h2>Post <b>Management</b></h2>
                     </div>
-                  
-                      
-                    <!-- <div class="col-sm-8">						
+
+
+                    <!-- <div class="col-sm-8">
                         <a href="#" class="btn btn-primary"><i class="material-icons">&#xE863;</i> <span>Refresh List</span></a>
                         <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
                     </div> -->
                 </div>
-                
+
             </div>
             <div class="table-filter">
                 <div class="row">
-                   
+
                     <div class="col-sm-3">
                         <div *ngIf="isLoading" class="loading-container">
                             <i class="fa fa-spinner fa-spin"></i> Loading...
@@ -31,7 +31,7 @@
                             <label>Name</label>
                             <input type="text" class="form-control">
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
@@ -41,8 +41,8 @@
                         <th>Post ID</th>
                         <th>User</th>
                         <th>Content</th>
-                        <th>Create Date</th>						
-                        <th>Reaction Count</th>		
+                        <th>Create Date</th>
+                        <th>Reaction Count</th>
                         <th>Detail</th>
                         <th style="text-align: center;">Action</th>
 
@@ -57,16 +57,16 @@
                             {{ getUserName(item.userId) }}
                           </a>
                         </td>
-                        
+
                         <td class="content-cell">{{item.content}}</td>
-                        <td>{{item.createTime}}</td>                        
+                        <td>{{item.createTime}}</td>
                         <td >{{item.countReaction}}</td>
                         <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
                         <td><button (click)="delete1(item.id)" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
 
 
                     </tr>
-                 
+
                 </tbody>
             </table>
             <div class="clearfix">
@@ -78,24 +78,24 @@
                     <li class="page-item" [class.disabled]="currentPage === 1">
                       <a class="page-link" (click)="setPage(currentPage - 1)">Previous</a>
                     </li>
-                  
+
                     <!-- Dynamic Page Numbers -->
                     <li class="page-item" *ngFor="let page of paginationRange" [class.active]="page === currentPage">
                         <a *ngIf="page !== '...'" class="page-link" (click)="onPageClick(page)">{{ page }}</a>
                         <span *ngIf="page === '...'" class="page-link">...</span>
                       </li>
-                  
+
                     <!-- Next -->
                     <li class="page-item" [class.disabled]="currentPage === totalPages">
                       <a class="page-link" (click)="setPage(currentPage + 1)">Next</a>
                     </li>
                   </ul>
-                  
+
               </div>
-              
-            
+
+
         </div>
-    </div>  
+    </div>
     <div class="modal fade" id="deleteModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -112,5 +112,5 @@
             </div>
           </div>
         </div>
-      </div>      
-</div> 
+      </div>
+</div>
