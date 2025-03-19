@@ -268,12 +268,12 @@ table td:last-child {
 }
 .content-cell {
   word-break: break-word;
-  max-width: 280px;
+  max-width: 200px;
   overflow-wrap: break-word;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 200px; /* Giới hạn chiều rộng */
+  width: 150px;
 }
 
 
