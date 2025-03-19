@@ -9,7 +9,7 @@ import { provideHttpClient } from '@angular/common/http'; // Import provideHttpC
 
 @Component({
   selector: 'app-root',
-  standalone: true, 
+  standalone: true,
   imports: [HeaderAdminComponent, SidebarAdminComponent, RouterOutlet, FooterComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'], // Corrected from styleUrl to styleUrls

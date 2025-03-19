@@ -1,0 +1,74 @@
+.email-config-container {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 70px;
+  margin-bottom: 70px;
+
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    quill-editor {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-height: 150px;
+    }
+
+    input[type="file"] {
+      padding: 5px;
+      border: none;
+    }
+
+    p {
+      font-size: 14px;
+      color: #007bff;
+    }
+  }
+
+  .send-btn {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .send-btn:hover {
+    background: #0056b3;
+  }
+
+  .success {
+    color: green;
+    text-align: center;
+    margin-top: 15px;
+  }
+  .message
+  {
+    height: 300px;
+  }
+}

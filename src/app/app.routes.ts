@@ -9,6 +9,7 @@ import {RoomManagerComponent} from './room-manager/room-manager.component';
 import {PostDetailComponent} from './post-detail/post-detail.component';
 import {PostManagerComponent} from './post-manager/post-manager.component';
 import {GeneralReportComponent} from './general-report/general-report.component';
+import {EmailConfigurationComponent} from './email-configuration/email-configuration.component';
 
 
 export const routes: Routes = [
@@ -21,6 +22,8 @@ export const routes: Routes = [
   {path: "room-detail/:id", component: RoomDetailComponent},
   {path: "post-detail/:id", component: PostDetailComponent},
   {path: "general-report", component: GeneralReportComponent},
+  {path: "email-configuration", component: EmailConfigurationComponent},
+
 
 ];
 
