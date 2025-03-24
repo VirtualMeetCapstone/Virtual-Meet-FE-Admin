@@ -1,1 +1,18 @@
-<p>post-report works!</p>
+<div class="report-container">
+  <h1>📌 Post Report</h1>
+  <div class="filter">
+    <p><strong>From Date:</strong>&nbsp;<input type="date" name="from-date"> </p>
+    <p><strong>To Date:</strong> &nbsp;<input type="date" name="to-date"> </p>
+  </div>
+
+  <table id="post-report">
+    <tr><th>Category</th><th>Value</th></tr>
+    <tr><td>Total Posts</td><td>3,500</td></tr>
+    <tr><td>New Posts</td><td>450</td></tr>
+    <tr><td>Reported Posts</td><td>30</td></tr>
+    <tr><td>Post Growth Rate</td><td>10%</td></tr>
+
+  </table>
+
+  <button class="export-btn" (click)="exportToExcel()">Export to Excel</button>
+</div>

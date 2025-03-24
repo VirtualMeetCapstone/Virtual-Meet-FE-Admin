@@ -10,6 +10,9 @@ import {PostDetailComponent} from './post-detail/post-detail.component';
 import {PostManagerComponent} from './post-manager/post-manager.component';
 import {GeneralReportComponent} from './general-report/general-report.component';
 import {EmailConfigurationComponent} from './email-configuration/email-configuration.component';
+import {UserReportComponent} from './user-report/user-report.component';
+import {MeetingReportComponent} from './meeting-report/meeting-report.component';
+import {PostReportComponent} from './post-report/post-report.component';
 
 
 export const routes: Routes = [
@@ -23,6 +26,11 @@ export const routes: Routes = [
   {path: "post-detail/:id", component: PostDetailComponent},
   {path: "general-report", component: GeneralReportComponent},
   {path: "email-configuration", component: EmailConfigurationComponent},
+  {path: "user-report", component: UserReportComponent},
+
+  {path: "meeting-report", component: MeetingReportComponent},
+
+  {path: "post-report", component: PostReportComponent},
 
 
 ];

@@ -1,1 +1,19 @@
-<p>user-report works!</p>
+<div class="report-container">
+  <h1>📌 User Report</h1>
+  <div class="filter">
+    <p><strong>From Date:</strong>&nbsp;<input type="date" name="from-date"> </p>
+    <p><strong>To Date:</strong> &nbsp;<input type="date" name="to-date"> </p>
+  </div>
+
+  <table id="user-report">
+    <tr><th>Category</th><th>Value</th></tr>
+    <tr><td>Total Users</td><td>5,000</td></tr>
+    <tr><td>New Users</td><td>300</td></tr>
+    <tr><td>Banned Users</td><td>20</td></tr>
+    <tr><td>User Retention Rate</td><td>85%</td></tr>
+    <tr><td>User Growth Rate</td><td>10%</td></tr>
+
+  </table>
+
+  <button class="export-btn" (click)="exportToExcel()">Export to Excel</button>
+</div>
