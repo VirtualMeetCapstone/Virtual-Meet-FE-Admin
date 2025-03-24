@@ -20,11 +20,11 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
   private deleteModal: bootstrap.Modal | null = null;
  public posts: Post[] = [];
  public postData: Post[] = [];
- selectedPostId: string | null = null; 
+ selectedPostId: string | null = null;
  public userMap: Map<string, User> = new Map();
  private modalInstanceDelete: bootstrap.Modal | null = null;
- totalItems = 0; 
- itemsPerPage = 5; 
+ totalItems = 0;
+ itemsPerPage = 7;
  currentPage = 1;
  public isLoading = false;
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private postService: PostServiceService, private userService: UserService) {
@@ -37,18 +37,18 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       // Only initialize modal instance in the browser environment
       import('bootstrap').then(bootstrap => {
-        setTimeout(() => { 
+        setTimeout(() => {
           const deleteModal = document.getElementById('deleteModal');
           if (deleteModal) {
             this.modalInstanceDelete = new bootstrap.Modal(deleteModal);
           } else {
             console.error('Modal element not found');
           }
-        }, 100); 
+        }, 100);
       }).catch(error => {
         console.error('Error loading Bootstrap:', error);
       });
-      
+
     }
   }
   private loadPosts(): void {
@@ -72,18 +72,18 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);
   }
-  
-  
+
+
   setPage(page: number) {
-    if (page < 1 || page > this.totalPages) return; 
+    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
-    this.loadPosts(); 
+    this.loadPosts();
   }
   get paginationRange(): (number | string)[] {
     const totalPages = this.totalPages;
     const currentPage = this.currentPage;
     const range: (number | string)[] = [];
-  
+
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) {
         range.push(i);
@@ -112,7 +112,7 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
   }
   private loadUsers(): void {
     this.userService.getUsers().subscribe((response: any) => {
-     
+
       if (Array.isArray(response)) {
         response.forEach((user: User) => {
           this.userMap.set(user.id, user);
@@ -126,7 +126,7 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  
+
 
 
   ngAfterViewInit(): void {
@@ -138,7 +138,7 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
   delete1(postId: string): void {
     this.selectedPostId = postId;
     if (this.modalInstanceDelete) {
-      this.modalInstanceDelete.show(); 
+      this.modalInstanceDelete.show();
       console.log("modal ne" ,this.modalInstanceDelete)
     } else {
       console.error('Modal instance is not available');
@@ -152,7 +152,7 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
        const modalInstance = Modal.getInstance(modalElement);
        if (modalInstance) {
          modalInstance.hide();
-         this.removeBackdrop(); 
+         this.removeBackdrop();
        }
      }
    }
@@ -174,9 +174,9 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
     this.postService.deletePost(this.selectedPostId).subscribe(response => {
         console.log('Room deleted:', response);
 
-        
+
         this.postData = this.postData.filter(post => post.id !== this.selectedPostId);
-        this.selectedPostId = null; 
+        this.selectedPostId = null;
         this.closeModal();
     }, error => {
         console.error('Error deleting room:', error);

@@ -1,10 +1,11 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Chart, registerables } from 'chart.js';
-import { RoomServiceService } from '../Service/room-service/room-service.service';
-import { Room } from '../model/room';
-import { Modal } from 'bootstrap';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {Chart, registerables} from 'chart.js';
+import {RoomServiceService} from '../Service/room-service/room-service.service';
+import {Room} from '../model/room';
+import {Modal} from 'bootstrap';
+
 declare var bootstrap: any;
 
 @Component({
@@ -18,33 +19,34 @@ export class RoomManagerComponent implements OnInit, AfterViewInit {
   private modalInstanceDelete: bootstrap.Modal | null = null;
   public rooms: Room[] = [];
   public roomData: Room[] = [];
-  selectedRoomId: string | null = null; 
-  totalItems = 0; 
-  itemsPerPage = 5; 
+  selectedRoomId: string | null = null;
+  totalItems = 0;
+  itemsPerPage = 7;
   currentPage = 1;
   public isLoading = false;
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private roomService: RoomServiceService) {
-    Chart.register(...registerables); 
+    Chart.register(...registerables);
   }
 
   ngOnInit(): void {
     this.loadRooms();
 
     if (isPlatformBrowser(this.platformId)) {
-    
+
       import('bootstrap').then(bootstrap => {
-        setTimeout(() => { 
+        setTimeout(() => {
           const deleteModal = document.getElementById('deleteModal');
           if (deleteModal) {
             this.modalInstanceDelete = new bootstrap.Modal(deleteModal);
           } else {
             console.error('Modal element not found');
           }
-        }, 100); 
+        }, 100);
       }).catch(error => {
         console.error('Error loading Bootstrap:', error);
       });
-      
+
     }
   }
 
@@ -60,36 +62,36 @@ export class RoomManagerComponent implements OnInit, AfterViewInit {
     console.log(`Loading rooms - Skip: ${skip}, Top: ${top}`);
     this.roomService.getRoomsPaging(skip, top).subscribe((response: any) => {
       this.isLoading = false;
-      console.log("API Response:", response); 
+      console.log("API Response:", response);
       if (Array.isArray(response.data)) {
         this.roomData = response.data;
         this.totalItems = response.totalCount || response.data.length;
       } else {
         console.error('Unexpected response format:', response);
       }
-    }, error =>{
+    }, error => {
       this.isLoading = false;
-      console.error ("Error loading rooms: ", error);
+      console.error("Error loading rooms: ", error);
     });
   }
+
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);
   }
-  
-  
+
+
   setPage(page: number) {
     if (isNaN(page) || page < 1 || page > this.totalPages) return;
     this.currentPage = page;
     this.loadRooms();
   }
-  
-  
-  
+
+
   get paginationRange(): (number | string)[] {
     const totalPages = this.totalPages;
     const currentPage = this.currentPage;
     const range: (number | string)[] = [];
-  
+
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) {
         range.push(i);
@@ -111,18 +113,19 @@ export class RoomManagerComponent implements OnInit, AfterViewInit {
     }
     return range;
   }
+
   onPageClick(page: number | string) {
     if (typeof page === 'number') {
       this.setPage(page);
     }
   }
-    
+
   // Delete room function (open modal)
   delete1(roomId: string): void {
     this.selectedRoomId = roomId;
     if (this.modalInstanceDelete) {
-      this.modalInstanceDelete.show(); 
-      console.log("modal ne" ,this.modalInstanceDelete)
+      this.modalInstanceDelete.show();
+      console.log("modal ne", this.modalInstanceDelete)
     } else {
       console.error('Modal instance is not available');
     }
@@ -135,40 +138,41 @@ export class RoomManagerComponent implements OnInit, AfterViewInit {
       const modalInstance = Modal.getInstance(modalElement);
       if (modalInstance) {
         modalInstance.hide();
-        this.removeBackdrop(); 
+        this.removeBackdrop();
       }
     }
   }
-  
-  
+
+
   private removeBackdrop(): void {
     const backdrop = document.querySelector('.modal-backdrop');
     if (backdrop) {
       backdrop.remove();
     }
   }
+
   // Confirm deletion
   confirmDelete(): void {
     if (!this.selectedRoomId) {
-        console.error('No room ID selected for deletion.');
-        return;
+      console.error('No room ID selected for deletion.');
+      return;
     }
 
     console.log(`Deleting room with ID: ${this.selectedRoomId}`);
 
     this.roomService.deleteRoom(this.selectedRoomId).subscribe(response => {
-        console.log('Room deleted:', response);
+      console.log('Room deleted:', response);
 
-        
-        this.roomData = this.roomData.filter(room => room.id !== this.selectedRoomId);
-        this.selectedRoomId = null; 
-        this.closeModal();
+
+      this.roomData = this.roomData.filter(room => room.id !== this.selectedRoomId);
+      this.selectedRoomId = null;
+      this.closeModal();
     }, error => {
-        console.error('Error deleting room:', error);
+      console.error('Error deleting room:', error);
     });
-}
+  }
 
-  
+
   createChart(): void {
     const ctx = document.getElementById('myLineChart') as HTMLCanvasElement;
     new Chart(ctx.getContext('2d')!, {

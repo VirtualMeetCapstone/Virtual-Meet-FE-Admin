@@ -1,11 +1,12 @@
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ViewChild, ElementRef } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ViewChild, ElementRef} from '@angular/core';
+import {Chart, registerables} from 'chart.js';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import * as bootstrap from 'bootstrap';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { UserService } from '../Service/user-service/user-service.service'; 
-import { Observable } from 'rxjs';
-import { User } from '../model/user';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {UserService} from '../Service/user-service/user-service.service';
+import {Observable} from 'rxjs';
+import {User} from '../model/user';
+
 @Component({
   selector: 'app-user-manager',
   templateUrl: './user-manager.component.html',
@@ -16,40 +17,41 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('myModal') myModal!: ElementRef;
   private deleteModal: bootstrap.Modal | null = null;
   private modalInstanceDelete: bootstrap.Modal | null = null;
-  selectedUserId: string | null = null; 
- 
+  selectedUserId: string | null = null;
+
   public users: User[] = [];
-  public userData : User[] = [];
-  totalItems = 0; 
- itemsPerPage = 5; 
- currentPage = 1;
- public isLoading = false;
+  public userData: User[] = [];
+  totalItems = 0;
+  itemsPerPage = 7;
+  currentPage = 1;
+  public isLoading = false;
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private userService: UserService,  
+    private userService: UserService,
   ) {
-    Chart.register(...registerables); 
+    Chart.register(...registerables);
   }
 
   ngOnInit(): void {
-    this.loadUsers(); 
-    
+    this.loadUsers();
+
     console.log("user data", this.userData);
     if (isPlatformBrowser(this.platformId)) {
       // Only initialize modal instance in the browser environment
       import('bootstrap').then(bootstrap => {
-        setTimeout(() => { 
+        setTimeout(() => {
           const deleteModal = document.getElementById('deleteModal');
           if (deleteModal) {
             this.modalInstanceDelete = new bootstrap.Modal(deleteModal);
           } else {
             console.error('Modal element not found');
           }
-        }, 100); 
+        }, 100);
       }).catch(error => {
         console.error('Error loading Bootstrap:', error);
       });
-      
+
     }
   }
 
@@ -71,27 +73,28 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
       } else {
         console.error('Unexpected response format:', response);
       }
-    }, error =>{
+    }, error => {
       this.isLoading = false;
-      console.error ("Error loading posts: ", error);
+      console.error("Error loading posts: ", error);
     });
   }
-  
+
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);
   }
-  
-  
+
+
   setPage(page: number) {
-    if (page < 1 || page > this.totalPages) return; 
+    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
-    this.loadUsers(); 
+    this.loadUsers();
   }
+
   get paginationRange(): (number | string)[] {
     const totalPages = this.totalPages;
     const currentPage = this.currentPage;
     const range: (number | string)[] = [];
-  
+
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) {
         range.push(i);
@@ -113,59 +116,64 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     }
     return range;
   }
+
   onPageClick(page: number | string) {
     if (typeof page === 'number') {
       this.setPage(page);
     }
   }
+
   // Delete post function (open modal)
-    delete1(userId: string): void {
-      this.selectedUserId = userId;
-      if (this.modalInstanceDelete) {
-        this.modalInstanceDelete.show(); 
-        console.log("modal ne" ,this.modalInstanceDelete)
-      } else {
-        console.error('Modal instance is not available');
-      }
+  delete1(userId: string): void {
+    this.selectedUserId = userId;
+    if (this.modalInstanceDelete) {
+      this.modalInstanceDelete.show();
+      console.log("modal ne", this.modalInstanceDelete)
+    } else {
+      console.error('Modal instance is not available');
     }
-  
-    // Close the modal
-     closeModal(): void {
-       const modalElement = document.getElementById('deleteModal');
-       if (modalElement) {
-         const modalInstance = bootstrap.Modal.getInstance(modalElement);
-         if (modalInstance) {
-           modalInstance.hide();
-           this.removeBackdrop(); 
-         }
-       }
-     }
-     private removeBackdrop(): void {
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-    }
-    // Confirm deletion (you can implement actual delete logic here)
-    confirmDelete(): void {
-      if (!this.selectedUserId) {
-          console.error('No room ID selected for deletion.');
-          return;
-      }
-  
-      console.log(`Deleting room with ID: ${this.selectedUserId}`);
-  
-      this.userService.deleteUser(this.selectedUserId).subscribe(response => {
-          console.log('Room deleted:', response);
-  
-          
-          this.userData = this.userData.filter(user => user.id !== this.selectedUserId);
-          this.selectedUserId = null; 
-          this.closeModal();
-      }, error => {
-          console.error('Error deleting room:', error);
-      });
   }
+
+  // Close the modal
+  closeModal(): void {
+    const modalElement = document.getElementById('deleteModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+        this.removeBackdrop();
+      }
+    }
+  }
+
+  private removeBackdrop(): void {
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+      backdrop.remove();
+    }
+  }
+
+  // Confirm deletion (you can implement actual delete logic here)
+  confirmDelete(): void {
+    if (!this.selectedUserId) {
+      console.error('No room ID selected for deletion.');
+      return;
+    }
+
+    console.log(`Deleting room with ID: ${this.selectedUserId}`);
+
+    this.userService.deleteUser(this.selectedUserId).subscribe(response => {
+      console.log('Room deleted:', response);
+
+
+      this.userData = this.userData.filter(user => user.id !== this.selectedUserId);
+      this.selectedUserId = null;
+      this.closeModal();
+    }, error => {
+      console.error('Error deleting room:', error);
+    });
+  }
+
   createChart() {
     const ctx = document.getElementById('myLineChart') as HTMLCanvasElement;
     new Chart(ctx.getContext('2d')!, {
