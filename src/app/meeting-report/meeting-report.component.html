@@ -1,1 +1,18 @@
-<p>meeting-report works!</p>
+<div class="report-container">
+  <h1>📌 Meeting Report</h1>
+  <div class="filter">
+    <p><strong>From Date:</strong>&nbsp;<input type="date" name="from-date"> </p>
+    <p><strong>To Date:</strong> &nbsp;<input type="date" name="to-date"> </p>
+  </div>
+
+  <table id="meeting-report">
+    <tr><th>Category</th><th>Value</th></tr>
+    <tr><td>Total Meetings</td><td>1,200</td></tr>
+    <tr><td>Longest Meeting</td><td>180 minutes</td></tr>
+    <tr><td>Average Meeting Duration</td><td>45 minutes</td></tr>
+    <tr><td>Canceled Meetings</td><td>50</td></tr>
+  </table>
+
+
+  <button class="export-btn" (click)="exportToExcel()">Export to Excel</button>
+</div>
