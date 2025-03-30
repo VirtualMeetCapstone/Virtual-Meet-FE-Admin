@@ -91,7 +91,7 @@
         </div>
       </div>
       <!-- User Management-->
-     <div class="row"> 
+     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
@@ -112,15 +112,15 @@
                   </thead>
                   <tbody *ngIf="userData" >
                     <tr *ngFor="let item of userData">
-                        
+
                         <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><img [src]="item.picture.url" class="avatar" alt="Avatar"> {{item.name}} </a></td>
                         <td>London</td>
-                        <td>Jun 15, 2017</td>                        
+                        <td>Jun 15, 2017</td>
                         <td><span class="status text-success">&bull;</span> Active</td>
                         <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
 
                     </tr>
-                    
+
                 </tbody>
                 </table>
               </div>
@@ -134,20 +134,20 @@
                     <li class="page-item" [class.disabled]="currentUserPage === 1">
                       <a class="page-link" (click)="setUserPage(currentUserPage - 1)">Previous</a>
                     </li>
-                  
+
                     <!-- Dynamic Page Numbers -->
                     <li class="page-item" *ngFor="let page of paginationUserRange" [class.active]="page === currentUserPage">
                         <a *ngIf="page !== '...'" class="page-link" (click)="onUserPageClick(page)">{{ page }}</a>
                         <span *ngIf="page === '...'" class="page-link">...</span>
                       </li>
-                  
+
                     <!-- Next -->
                     <li class="page-item" [class.disabled]="currentUserPage === totalUserPages">
                       <a class="page-link" (click)="setUserPage(currentUserPage + 1)">Next</a>
                     </li>
                   </ul>
                 </div>
-               
+
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@
       </div>
       <!--Room Management -->
       <div class="row">
-        
+
        <div class="col-md-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
@@ -176,10 +176,10 @@
                   </thead>
                   <tbody *ngIf="roomData">
                     <tr *ngFor="let item of roomData">
-                        
+
                         <td><a [routerLink]="['/room-detail',item.id]" routerLinkActive="active">{{item.id}}</a></td>
                         <td>{{item.owner.name}}</td>
-                        <td>{{item.createTime}}</td>                        
+                        <td>{{item.createTime}}</td>
                         <td><span class="status text-success">&bull;</span> {{item.status}}</td>
                         <td><a [routerLink]="['/room-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
 
@@ -199,20 +199,20 @@
                     <li class="page-item" [class.disabled]="currentRoomPage === 1">
                       <a class="page-link" (click)="setRoomPage(currentRoomPage - 1)">Previous</a>
                     </li>
-                  
+
                     <!-- Dynamic Page Numbers -->
                     <li class="page-item" *ngFor="let page of paginationRoomRange" [class.active]="page === currentRoomPage">
                         <a *ngIf="page !== '...'" class="page-link" (click)="onRoomPageClick(page)">{{ page }}</a>
                         <span *ngIf="page === '...'" class="page-link">...</span>
                       </li>
-                  
+
                     <!-- Next -->
                     <li class="page-item" [class.disabled]="currentRoomPage === totalRoomPages">
                       <a class="page-link" (click)="setRoomPage(currentRoomPage + 1)">Next</a>
                     </li>
                   </ul>
                 </div>
-               
+
               </div>
             </div>
           </div>
@@ -220,7 +220,7 @@
       </div>
        <!--Post Management -->
        <div class="row">
-        
+
         <div class="col-md-12 grid-margin stretch-card">
            <div class="card">
              <div class="card-body">
@@ -245,17 +245,17 @@
                     <tr *ngFor="let item of postData">
                         <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active">{{item.id}}</a></td>
 
-                        <td><a href="#" *ngIf="userMap.get(item.userId)">
-                            {{userMap.get(item.userId)?.name}}
+                        <td><a style="text-decoration: none" >
+                            {{item.user.name}}
                           </a></td>
                         <td class="content-cell">{{item.content}}</td>
-                        <td>{{item.createTime}}</td>                        
+                        <td>{{item.createTime}}</td>
                         <td >{{item.countReaction}}</td>
                         <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
 
 
                     </tr>
-                 
+
                 </tbody>
                 </table>
               </div>
@@ -269,26 +269,26 @@
                     <li class="page-item" [class.disabled]="currentPostPage === 1">
                       <a class="page-link" (click)="setPostPage(currentPostPage - 1)">Previous</a>
                     </li>
-                  
+
                     <!-- Dynamic Page Numbers -->
                     <li class="page-item" *ngFor="let page of paginationPostRange" [class.active]="page === currentPostPage">
                         <a *ngIf="page !== '...'" class="page-link" (click)="onPostPageClick(page)">{{ page }}</a>
                         <span *ngIf="page === '...'" class="page-link">...</span>
                       </li>
-                  
+
                     <!-- Next -->
                     <li class="page-item" [class.disabled]="currentPostPage === totalPostPages">
                       <a class="page-link" (click)="setPostPage(currentPostPage + 1)">Next</a>
                     </li>
                   </ul>
                 </div>
-               
+
               </div>
              </div>
            </div>
          </div>
        </div>
-     
+
       <div class="row">
         <div class="col-md-12 grid-margin">
           <div class="card">
@@ -346,8 +346,8 @@
           </div>
         </div>
       </div>
-    
-    
+
+
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->
 
