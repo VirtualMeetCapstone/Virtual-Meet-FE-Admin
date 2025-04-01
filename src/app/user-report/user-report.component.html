@@ -1,8 +1,8 @@
 <div class="report-container">
   <h1>📌 User Report</h1>
   <div class="filter">
-    <p><strong>From Date:</strong>&nbsp;<input type="date" name="from-date"> </p>
-    <p><strong>To Date:</strong> &nbsp;<input type="date" name="to-date"> </p>
+    <p><strong>From Date:</strong>&nbsp;<input type="date" [(ngModel)]="beforeDate" name="from-date"> </p>
+    <p><strong>To Date:</strong> &nbsp;<input type="date" [(ngModel)]="afterDate"  name="to-date"> </p>
   </div>
 
   <table id="user-report">
