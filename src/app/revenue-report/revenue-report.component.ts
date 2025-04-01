@@ -34,6 +34,4 @@ export class RevenueReportComponent implements OnInit {
     XLSX.writeFile(wb, "Admin_Report.xlsx");
   }
 
-
-
 }
