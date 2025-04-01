@@ -13,6 +13,7 @@ import {EmailConfigurationComponent} from './email-configuration/email-configura
 import {UserReportComponent} from './user-report/user-report.component';
 import {MeetingReportComponent} from './meeting-report/meeting-report.component';
 import {PostReportComponent} from './post-report/post-report.component';
+import {RevenueReportComponent} from './revenue-report/revenue-report.component';
 
 
 export const routes: Routes = [
@@ -31,6 +32,8 @@ export const routes: Routes = [
   {path: "meeting-report", component: MeetingReportComponent},
 
   {path: "post-report", component: PostReportComponent},
+  {path: "revenue-report", component: RevenueReportComponent},
+
 
 
 ];
