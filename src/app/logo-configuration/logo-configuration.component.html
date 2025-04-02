@@ -1,0 +1,14 @@
+<div class="logo-config">
+  <h3>Logo Configuration</h3>
+  <div class="logo-preview">
+    <img [src]="logoUrl || 'assets/default-logo.png'" alt="Logo" />
+  </div>
+  <div class="action">
+    <input type="file" placeholder="New logo" (change)="onFileSelected($event)" accept="image/*" />
+    <button (click)="saveLogo()" [disabled]="!selectedFile">Save Logo</button>
+  </div>
+  <div class="note">
+    <p style="color: gray; margin-top: 20px">* This action will update your website logo!</p>
+  </div>
+
+</div>
