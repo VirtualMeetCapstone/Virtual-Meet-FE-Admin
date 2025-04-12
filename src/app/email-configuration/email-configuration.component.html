@@ -22,6 +22,15 @@
       virtualmeet&#64;gmail.com
     </div>
   </div>
+  <div class="form-group">
+    <label for="template">Select Template:</label>
+    <select id="template" [(ngModel)]="selectedTemplate" name="template" (change)="onTemplateChange()">
+      <option value="" disabled selected>-- Choose Template --</option>
+      <option value="maintenance">System Maintenance</option>
+      <option value="newFeature">New Feature</option>
+      <option value="promotion">Promotion</option>
+    </select>
+  </div>
   <form (submit)="sendNotification()">
     <div class="form-group">
       <label for="subject">Subject:</label>
@@ -33,11 +42,11 @@
       <textarea id="message" class="message" rows="5" [(ngModel)]="emailMessage" name="message" required></textarea>
     </div>
 
-    <div class="form-group">
-      <label for="file">Attach File:</label>
-      <input id="file" type="file" (change)="onFileSelected($event)" />
-      <p *ngIf="selectedFile">Selected: {{ selectedFile.name }}</p>
-    </div>
+<!--    <div class="form-group">-->
+<!--      <label for="file">Attach File:</label>-->
+<!--      <input id="file" type="file" (change)="onFileSelected($event)" />-->
+<!--      <p *ngIf="selectedFile">Selected: {{ selectedFile.name }}</p>-->
+<!--    </div>-->
 
     <button type="submit" class="send-btn">Send Notification</button>
   </form>
