@@ -32,6 +32,7 @@ export class UserService {
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
+
   public getUserDetail(id: String): Observable<any> {
     const url =  `${this.REST_API_SERVER}/users/`+id;
     return this.http.get<User>(url, this.httpOptions)
@@ -49,6 +50,15 @@ export class UserService {
       .get<any>(url)
       .pipe(catchError(this.handleError));
   }
+  public userReportToExcel(fromDate: string, toDate: string): Observable<Blob> {
+    const url = `${this.REST_API_SERVER}/report/user/excel?From=${fromDate}&To=${toDate}`;
+    return this.http.get(url, {
+      responseType: 'blob' // <-- Quan trọng để nhận file Excel
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     // Log the error to the console (or send it to a logging service)

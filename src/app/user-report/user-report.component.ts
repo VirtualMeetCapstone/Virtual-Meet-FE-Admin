@@ -48,6 +48,28 @@ export class UserReportComponent implements OnInit {
       this.userReportData = null;
     }
   }
+  userReportToExcel(): void {
+    if (this.isValidDateRange()) {
+      const formattedBeforeDate = encodeURIComponent(this.convertToDateTime(this.beforeDate));
+      const formattedAfterDate = encodeURIComponent(this.convertToDateTime(this.afterDate));
+
+      this.userService.userReportToExcel(formattedBeforeDate, formattedAfterDate)
+        .subscribe((response: Blob) => {
+          // Tạo file và trigger download
+          const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'User_Report.xlsx';
+          a.click();
+          window.URL.revokeObjectURL(url);
+        }, error => {
+          console.error('Error occurred:', error);
+        });
+    } else {
+      this.userReportData = null;
+    }
+  }
 
 
   convertToDateTime(date: string): string {
