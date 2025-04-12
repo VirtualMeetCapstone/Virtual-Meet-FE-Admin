@@ -43,6 +43,13 @@ export class UserService {
     .delete<any>(url)
       .pipe(catchError(this.handleError));
   }
+  public userReport(fromDate: string, toDate: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}/report/user?From=${fromDate}&To=${toDate}`;
+    return this.http
+      .get<any>(url)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     // Log the error to the console (or send it to a logging service)
     console.error('An error occurred:', error);

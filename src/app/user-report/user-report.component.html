@@ -1,17 +1,55 @@
 <div class="report-container">
   <h1>📌 User Report</h1>
   <div class="filter">
-    <p><strong>From Date:</strong>&nbsp;<input type="date" [(ngModel)]="beforeDate" name="from-date"> </p>
-    <p><strong>To Date:</strong> &nbsp;<input type="date" [(ngModel)]="afterDate"  name="to-date"> </p>
+    <p>
+      <strong>From Date:</strong>&nbsp;
+      <input
+        type="date"
+        [(ngModel)]="beforeDate"
+        (ngModelChange)="onDateChange()"
+        [max]="afterDate"
+        name="from-date"
+      >
+    </p>
+
+    <p>
+      <strong>To Date:</strong>&nbsp;
+      <input
+        type="date"
+        [(ngModel)]="afterDate"
+        (ngModelChange)="onDateChange()"
+        [min]="beforeDate"
+        [max]="today"
+        name="to-date"
+      >
+    </p>
   </div>
 
   <table id="user-report">
-    <tr><th>Category</th><th>Value</th></tr>
-    <tr><td>Total Users</td><td>5,000</td></tr>
-    <tr><td>New Users</td><td>300</td></tr>
-    <tr><td>Banned Users</td><td>20</td></tr>
-    <tr><td>User Retention Rate</td><td>85%</td></tr>
-    <tr><td>User Growth Rate</td><td>10%</td></tr>
+    <tr>
+      <th>Category</th>
+      <th>Value</th>
+    </tr>
+    <tr>
+      <td>Total Users</td>
+      <td>{{ userReportData?.totalUsers }}</td>
+    </tr>
+    <tr>
+      <td>New Users {{ beforeDate }} - {{ afterDate }}</td>
+      <td>{{ userReportData?.newUsers }}</td>
+    </tr>
+    <tr>
+      <td>Banned Users</td>
+      <td>{{ userReportData?.bannedUsers }}</td>
+    </tr>
+    <tr>
+      <td>User Retention Rate</td>
+      <td>{{ (userReportData?.retentionRate) | percent:'1.0-2' }}</td>
+    </tr>
+    <tr>
+      <td>User Growth Rate</td>
+      <td>{{ (userReportData?.growthRate) | percent:'1.0-2' }}</td>
+    </tr>
 
   </table>
 
