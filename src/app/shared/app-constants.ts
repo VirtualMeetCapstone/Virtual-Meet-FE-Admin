@@ -1,5 +1,5 @@
 export const APP_CONSTANTS = {
-    REST_API_SERVIER : 'http://dev-vmeet.runasp.net'
+    REST_API_SERVIER : 'https://dev-vmeet.site'
   };
 export const QuillConfiguration = {
   toolbar: [
