@@ -6,12 +6,13 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
 import {UserService} from '../Service/user-service/user-service.service';
 import {Observable} from 'rxjs';
 import {User} from '../model/user';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-user-manager',
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.scss'],
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule],
 })
 export class UserManagerComponent implements OnInit, AfterViewInit {
   @ViewChild('myModal') myModal!: ElementRef;
@@ -25,7 +26,7 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   itemsPerPage = 7;
   currentPage = 1;
   public isLoading = false;
-
+  searchName: string = '';
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private userService: UserService,
@@ -54,7 +55,23 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
 
     }
   }
-
+  searchUser(): void {
+    // alert(this.searchName)
+    if (this.searchName.trim()) {
+      this.userService.searchUser(this.searchName.trim()).subscribe(
+        (res) => {
+          this.userData = res;
+          console.log(this.userData);
+          this.totalItems=0;
+        },
+        (err) => {
+          console.error('Search failed:', err);
+        }
+      );
+    } else {
+      this.loadUsers();
+    }
+  }
   ngAfterViewInit(): void {
     this.createChart();
   }
