@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-// Dùng build miễn phí không yêu cầu license
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
+import {EmailServiceService} from '../Service/email-service/email-service.service';
 
 @Component({
   selector: 'app-email-configuration',
@@ -13,38 +12,61 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrl: './email-configuration.component.scss'
 })
 export class EmailConfigurationComponent {
-  emailSubject: string = '';
-  emailMessage: string = '';
-  successMessage: string = '';
-  selectedFile: File | null = null;
+  constructor(private emailService: EmailServiceService) {
+  }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
+  emailSubject: string = '';
+  emailMessage: string = '';
+  selectedFile: File | null = null;
+  selectedTemplate: string = '';
+  successMessage: string = '';
+
+  onTemplateChange(): void {
+    switch (this.selectedTemplate) {
+      case 'maintenance':
+        this.emailSubject = 'VirtualMeet - Thông báo bảo trì hệ thống';
+        this.emailMessage = `Kính gửi quý người dùng,
+
+Hệ thống sẽ được bảo trì từ 23:00 ngày 15/04 đến 05:00 ngày 16/04. Trong thời gian này, một số chức năng có thể bị gián đoạn. Mong quý người dùng thông cảm.
+
+Trân trọng,
+Đội ngũ VirtualMeet.`;
+        break;
+
+      case 'newFeature':
+        this.emailSubject = 'VirtualMeet - Ra mắt tính năng mới!';
+        this.emailMessage = `Xin chào,
+
+Chúng tôi vừa cập nhật một số tính năng mới giúp việc họp trực tuyến của bạn hiệu quả hơn. Hãy đăng nhập để trải nghiệm ngay nhé!
+
+Cảm ơn bạn đã đồng hành cùng VirtualMeet.`;
+        break;
+
+      case 'promotion':
+        this.emailSubject = 'VirtualMeet - Ưu đãi hấp dẫn từ VirtualMeet';
+        this.emailMessage = `Kính gửi quý người dùng,
+
+Từ hôm nay đến hết tháng, hãy tận hưởng chương trình khuyến mãi đặc biệt với nhiều phần quà hấp dẫn dành cho người dùng thân thiết.
+
+Truy cập ngay để không bỏ lỡ!
+
+Trân trọng,
+VirtualMeet Team.`;
+        break;
+    }
+  }
+
   sendNotification() {
-    if (!this.emailSubject || !this.emailMessage) {
-      alert("Please enter both subject and message!");
-      return;
-    }
-
-    // Chuẩn bị dữ liệu gửi
-    const formData = new FormData();
-    formData.append("subject", this.emailSubject);
-    formData.append("message", this.emailMessage);
-    if (this.selectedFile) {
-      formData.append("file", this.selectedFile);
-    }
-
-    console.log("Sending Email:", formData);
-
-    // Gọi API gửi email (cần backend xử lý)
-    // this.http.post('your-api-url', formData).subscribe(response => {
-    //   this.successMessage = "Notification sent successfully!";
-    // });
-
-    // Hiển thị thông báo thành công
-    this.successMessage = "Notification sent successfully!";
+    this.emailService.emailNotification(this.emailSubject, this.emailMessage)
+      .subscribe(response => {
+        console.log('Email sent:', response);
+      }, error => {
+        console.error('Email error:', error);
+      });
 
     // Reset form sau khi gửi
     setTimeout(() => this.successMessage = '', 3000);
