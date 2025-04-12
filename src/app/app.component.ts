@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import { HeaderAdminComponent } from "./header-admin/header-admin.component";
 import { SidebarAdminComponent } from "./sidebar-admin/sidebar-admin.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
@@ -17,4 +17,18 @@ import { provideHttpClient } from '@angular/common/http'; // Import provideHttpC
 })
 export class AppComponent {
   title = 'Virtual-Meet-FE-Admin-main';
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const body = document.body;
+        if (event.urlAfterRedirects === '/' || event.url === '/dashboard') {
+          body.classList.add('dashboard-page');
+          body.classList.remove('other-page');
+        } else {
+          body.classList.add('other-page');
+          body.classList.remove('dashboard-page');
+        }
+      }
+    });
+  }
 }

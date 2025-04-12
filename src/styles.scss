@@ -16441,6 +16441,8 @@ code {
   -ms-transition: all 0.25s ease;
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
+  //position: relative;
+  //width:100%;
 }
 .footer a {
   color: inherit;
@@ -25199,7 +25201,7 @@ div.tagsinput span.tag a {
 
 /* Sidebar */
 .sidebar {
-  height: 100%;
+  height: 100vh;
   background: #181824;
   font-family: "Open Sans", sans-serif;
   padding: 0;
@@ -25209,7 +25211,25 @@ div.tagsinput span.tag a {
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
+
 }
+.sidebar {
+  background: #181824;
+  font-family: "Open Sans", sans-serif;
+  padding: 0;
+  width: 240px;
+  z-index: 11;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+body.dashboard-page .sidebar {
+  height: 100%;
+}
+
+body.other-page .sidebar {
+  height: 100vh;
+}
+
 .sidebar .nav {
   overflow: hidden;
   -ms-flex-wrap: nowrap;
@@ -25910,11 +25930,12 @@ div.tagsinput span.tag a {
 
 .content-wrapper {
   background: #ccc;
-  padding: 2.75rem 1.5rem 0;
+  //padding: 2.75rem 1.5rem 0;
   width: 100%;
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+  margin-top:20px;
 }
 
 .quick-action-toolbar .card .card-header {

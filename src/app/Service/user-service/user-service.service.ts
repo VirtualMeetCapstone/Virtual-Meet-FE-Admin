@@ -27,6 +27,11 @@ export class UserService {
     return this.http.get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
+  public searchUser(userName: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}/users/search?userName=${userName}`;
+    return this.http.get<any>(url, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
   public getUserDetail(id: String): Observable<any> {
     const url =  `${this.REST_API_SERVER}/users/`+id;
     return this.http.get<User>(url, this.httpOptions)
