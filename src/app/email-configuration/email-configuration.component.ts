@@ -31,7 +31,7 @@ export class EmailConfigurationComponent {
         this.emailSubject = 'VirtualMeet - Thông báo bảo trì hệ thống';
         this.emailMessage = `Kính gửi quý người dùng,
 
-Hệ thống sẽ được bảo trì từ 23:00 ngày 15/04 đến 05:00 ngày 16/04. Trong thời gian này, một số chức năng có thể bị gián đoạn. Mong quý người dùng thông cảm.
+Hệ thống sẽ được bảo trì từ {Time} ngày {Date} đến {Time} ngày {Date}. Trong thời gian này, một số chức năng có thể bị gián đoạn. Mong quý người dùng thông cảm.
 
 Trân trọng,
 Đội ngũ VirtualMeet.`;
