@@ -59,8 +59,12 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
     this.postService.getPosts(skip, top).subscribe((response: any) => {
       this.isLoading = false;
       if (Array.isArray(response.data)) {
-        this.postData = response.data;
+
         this.totalItems = response.totalCount || response.data.length;
+        this.postData = response.data.map((item: any) => ({
+          ...item,
+          formattedCreateTime: this.convertTicksToDateTime(item.createTime)
+        }));
       } else {
         console.error('Unexpected response format:', response);
       }
@@ -131,7 +135,7 @@ export class PostManagerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Initialize the chart after view is loaded
-    this.createChart();
+    // this.createChart();
   }
 
   // Delete post function (open modal)
@@ -187,46 +191,21 @@ public getUserName(userId: string | undefined): string {
   return userId ? this.userMap.get(userId)?.name || 'Deleted User' : 'User not found';
 }
   // Create the Line Chart
-  createChart() {
-    const ctx = document.getElementById('myLineChart') as HTMLCanvasElement;
-    new Chart(ctx.getContext('2d')!, {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'],
-        datasets: [{
-          label: 'Sales (in USD)',
-          data: [100, 200, 150, 400, 350, 600, 400, 200, 150, 30],
-          borderColor: 'rgb(255, 0, 85)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderWidth: 2,
-          tension: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
-          }
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Months'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Number Of User'
-            },
-            beginAtZero: true
-          }
-        }
-      }
-    });
+  convertTicksToDateTime(ticks: number): string {
+    const epochTicks = 621355968000000000;
+    const tickMs = 0.0001;
+    const jsTime = (ticks - epochTicks) * tickMs;
+    const date = new Date(jsTime);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
+
 }
 

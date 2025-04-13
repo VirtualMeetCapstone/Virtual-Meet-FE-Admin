@@ -1,114 +1,123 @@
 <div class="container-xl content">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>Post <b>Management</b></h2>
-                    </div>
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-4">
+            <h2>Post <b>Management</b></h2>
+          </div>
 
 
-                    <!-- <div class="col-sm-8">
-                        <a href="#" class="btn btn-primary"><i class="material-icons">&#xE863;</i> <span>Refresh List</span></a>
-                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
-                    </div> -->
-                </div>
-
-            </div>
-            <div class="table-filter">
-                <div class="row">
-
-                    <div class="col-sm-3">
-                        <div *ngIf="isLoading" class="loading-container">
-                            <i class="fa fa-spinner fa-spin"></i> Loading...
-                          </div>
-                    </div>
-                    <div class="col-sm-9">
-                        <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                        <div class="filter-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Post ID</th>
-                        <th>User</th>
-                        <th>Content</th>
-                        <th>Create Date</th>
-                        <th>Reaction Count</th>
-                        <th>Detail</th>
-                        <th style="text-align: center;">Action</th>
-
-                    </tr>
-                </thead>
-                <tbody *ngIf="postData" >
-                    <tr *ngFor="let item of postData">
-                        <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active">{{item.id}}</a></td>
-
-                        <td>
-                          <a href="#">
-                            {{ item.user.name }}
-                          </a>
-                        </td>
-
-                        <td class="content-cell">{{item.content}}</td>
-                        <td>{{item.createTime}}</td>
-                        <td >{{item.countReaction}}</td>
-                        <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-                        <td><button (click)="delete1(item.id)" id="delete" type="button" class="btn btn-primary delete"><i class="fa-solid fa-ban"></i></button></td>
-
-
-                    </tr>
-
-                </tbody>
-            </table>
-            <div class="clearfix">
-                <div class="hint-text">
-                  Showing <b>{{ postData.length }}</b> out of <b>{{ totalItems }}</b> entries
-                </div>
-                <ul *ngIf="totalPages > 1" class="pagination">
-                    <!-- Previous -->
-                    <li class="page-item" [class.disabled]="currentPage === 1">
-                      <a class="page-link" (click)="setPage(currentPage - 1)">Previous</a>
-                    </li>
-
-                    <!-- Dynamic Page Numbers -->
-                    <li class="page-item" *ngFor="let page of paginationRange" [class.active]="page === currentPage">
-                        <a *ngIf="page !== '...'" class="page-link" (click)="onPageClick(page)">{{ page }}</a>
-                        <span *ngIf="page === '...'" class="page-link">...</span>
-                      </li>
-
-                    <!-- Next -->
-                    <li class="page-item" [class.disabled]="currentPage === totalPages">
-                      <a class="page-link" (click)="setPage(currentPage + 1)">Next</a>
-                    </li>
-                  </ul>
-
-              </div>
-
-
+          <!-- <div class="col-sm-8">
+              <a href="#" class="btn btn-primary"><i class="material-icons">&#xE863;</i> <span>Refresh List</span></a>
+              <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
+          </div> -->
         </div>
-    </div>
-    <div class="modal fade" id="deleteModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      </div>
+      <div class="table-filter">
+        <div class="row">
+
+          <div class="col-sm-3">
+            <div *ngIf="isLoading" class="loading-container">
+              <i class="fa fa-spinner fa-spin"></i> Loading...
             </div>
-            <div class="modal-body">
-              Are you sure you want to delete this item {{selectedPostId}}?
+          </div>
+          <div class="col-sm-9">
+            <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            <div class="filter-group">
+              <label>Name</label>
+              <input type="text" class="form-control">
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-              <button type="button" class="btn btn-primary" (click)="confirmDelete()">Confirm</button>
-            </div>
+
           </div>
         </div>
       </div>
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th>Post ID</th>
+          <th>User</th>
+          <th>Content</th>
+          <th>Create Date</th>
+          <th>Reaction Count</th>
+          <th>Detail</th>
+          <th style="text-align: center;">Action</th>
+
+        </tr>
+        </thead>
+        <tbody *ngIf="postData">
+        <tr *ngFor="let item of postData">
+          <td [class.reported-row]="item.isReported"><a [routerLink]="['/post-detail',item.id]"
+                                                        routerLinkActive="active">{{ item.id }}</a></td>
+
+          <td [class.reported-row]="item.isReported">
+            <a href="#">
+              {{ item.user.name }}
+            </a>
+          </td>
+
+          <td [class.reported-row]="item.isReported" class="content-cell">{{ item.content }}</td>
+          <td [class.reported-row]="item.isReported">{{ item.formattedCreateTime }}</td>
+
+          <td [class.reported-row]="item.isReported">{{ item.countReaction }}</td>
+
+          <td [class.reported-row]="item.isReported"><a [routerLink]="['/post-detail',item.id]"
+                                                        routerLinkActive="active"><i class="fa-solid fa-eye"></i></a>
+          </td>
+          <td [class.reported-row]="item.isReported">
+            <button (click)="delete1(item.id)" id="delete" type="button" class="btn btn-primary delete"><i
+              class="fa-solid fa-ban"></i></button>
+          </td>
+
+
+        </tr>
+
+        </tbody>
+      </table>
+      <div class="clearfix">
+        <div class="hint-text">
+          Showing <b>{{ postData.length }}</b> out of <b>{{ totalItems }}</b> entries
+        </div>
+        <ul *ngIf="totalPages > 1" class="pagination">
+          <!-- Previous -->
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="setPage(currentPage - 1)">Previous</a>
+          </li>
+
+          <!-- Dynamic Page Numbers -->
+          <li class="page-item" *ngFor="let page of paginationRange" [class.active]="page === currentPage">
+            <a *ngIf="page !== '...'" class="page-link" (click)="onPageClick(page)">{{ page }}</a>
+            <span *ngIf="page === '...'" class="page-link">...</span>
+          </li>
+
+          <!-- Next -->
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="setPage(currentPage + 1)">Next</a>
+          </li>
+        </ul>
+
+      </div>
+
+
+    </div>
+  </div>
+  <div class="modal fade" id="deleteModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="deleteModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this item {{ selectedPostId }}?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="confirmDelete()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -19,7 +19,6 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   private deleteModal: bootstrap.Modal | null = null;
   private modalInstanceDelete: bootstrap.Modal | null = null;
   selectedUserId: string | null = null;
-
   public users: User[] = [];
   public userData: User[] = [];
   totalItems = 0;
@@ -27,6 +26,7 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   currentPage = 1;
   public isLoading = false;
   searchName: string = '';
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private userService: UserService,
@@ -55,6 +55,7 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
 
     }
   }
+
   searchUser(): void {
     // alert(this.searchName)
     if (this.searchName.trim()) {
@@ -62,7 +63,7 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
         (res) => {
           this.userData = res;
           console.log(this.userData);
-          this.totalItems=0;
+          this.totalItems = 0;
         },
         (err) => {
           console.error('Search failed:', err);
@@ -72,8 +73,9 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
       this.loadUsers();
     }
   }
+
   ngAfterViewInit(): void {
-    this.createChart();
+    // this.createChart();
   }
 
   // Method to load user data
@@ -85,7 +87,11 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     this.userService.getUsersPaging(top, skip).subscribe((response: any) => {
       this.isLoading = false;
       if (Array.isArray(response.data)) {
-        this.userData = response.data;
+
+        this.userData = response.data.map((item: any) => ({
+          ...item,
+          formattedCreateTime: this.convertTicksToDateTime(item.createTime)
+        }));
         this.totalItems = response.totalCount || response.data.length;
       } else {
         console.error('Unexpected response format:', response);
@@ -191,45 +197,20 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createChart() {
-    const ctx = document.getElementById('myLineChart') as HTMLCanvasElement;
-    new Chart(ctx.getContext('2d')!, {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'],
-        datasets: [{
-          label: 'Sales (in USD)',
-          data: [100, 200, 150, 400, 350, 600, 400, 200, 150, 30],
-          borderColor: 'rgb(255, 0, 85)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderWidth: 2,
-          tension: 0
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
-          }
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Months'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Number Of User'
-            },
-            beginAtZero: true
-          }
-        }
-      }
-    });
+  convertTicksToDateTime(ticks: number): string {
+    const epochTicks = 621355968000000000;
+    const tickMs = 0.0001;
+    const jsTime = (ticks - epochTicks) * tickMs;
+    const date = new Date(jsTime);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
+
 }

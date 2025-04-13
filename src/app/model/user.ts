@@ -10,6 +10,8 @@ export interface User {
   bio: string,
   followersCount: number,
   friendCount: number,
-  followingCount: number
-
+  followingCount: number,
+  isReported: boolean,
+  createTime: number;
+  formattedCreateTime?: string;
 }
