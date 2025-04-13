@@ -20,6 +20,7 @@ footer {
 }
 
 .table-responsive {
+  height: 690px;
   margin: 30px 0;
 }
 
@@ -333,4 +334,8 @@ i.fa-solid.fa-eye {
   margin-top: 50px;
 }
 
+.reported-row {
+  background-color: rgba(255, 22, 22, 0.7) !important; /* đỏ nhạt */
+  color: red;
+}
 
