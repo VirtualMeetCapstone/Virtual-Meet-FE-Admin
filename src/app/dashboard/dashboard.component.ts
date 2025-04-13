@@ -21,26 +21,26 @@ export class DashboardComponent implements OnInit{
   public roomData: Room[] = [];
  public userMap: Map<string, User> = new Map();
 
-  totalUsers = 0; 
- usersPerPage = 5; 
+  totalUsers = 0;
+ usersPerPage = 5;
  currentUserPage = 1;
- totalPosts = 0; 
- postsPerPage = 5; 
+ totalPosts = 0;
+ postsPerPage = 5;
  currentPostPage = 1;
- totalRooms = 0; 
- roomsPerPage = 5; 
+ totalRooms = 0;
+ roomsPerPage = 5;
  currentRoomPage = 1;
  public isLoading = false;
  constructor(
-    
-     private userService: UserService,  
+
+     private userService: UserService,
      private roomService: RoomServiceService,
      private postService: PostServiceService
    ) {
-    
+
    }
 ngOnInit(): void {
-    this.loadUsers(); 
+    this.loadUsers();
     this.loadPosts();
     this.loadRooms();
     this.loadUsersInfo();
@@ -55,7 +55,10 @@ ngOnInit(): void {
     this.userService.getUsersPaging(top, skip).subscribe((response: any) => {
       this.isLoading = false;
       if (Array.isArray(response.data)) {
-        this.userData = response.data;
+        this.userData = response.data.map((item: any) => ({
+          ...item,
+          formattedCreateTime: this.convertTicksToDateTime(item.createTime)
+        }));
         this.totalUsers = response.totalCount || response.data.length;
       } else {
         console.error('Unexpected response format:', response);
@@ -67,7 +70,7 @@ ngOnInit(): void {
   }
   private loadUsersInfo(): void {
     this.userService.getUsers().subscribe((response: any) => {
-     
+
       if (Array.isArray(response)) {
         response.forEach((user: User) => {
           this.userMap.set(user.id, user);
@@ -81,7 +84,7 @@ ngOnInit(): void {
       }
     });
   }
-  
+
   private loadPosts(): void {
     this.isLoading = true;
     const skip = (this.currentPostPage - 1) * this.postsPerPage;
@@ -90,7 +93,10 @@ ngOnInit(): void {
     this.postService.getPosts(skip, top).subscribe((response: any) => {
       this.isLoading = false;
       if (Array.isArray(response.data)) {
-        this.postData = response.data;
+        this.postData = response.data.map((item: any) => ({
+          ...item,
+          formattedCreateTime: this.convertTicksToDateTime(item.createTime)
+        }));
         this.totalPosts = response.totalCount || response.data.length;
       } else {
         console.error('Unexpected response format:', response);
@@ -108,9 +114,12 @@ ngOnInit(): void {
     console.log(`Loading rooms - Skip: ${skip}, Top: ${top}`);
     this.roomService.getRoomsPaging(skip, top).subscribe((response: any) => {
       this.isLoading = false;
-      console.log("API Response:", response); 
+      console.log("API Response:", response);
       if (Array.isArray(response.data)) {
-        this.roomData = response.data;
+        this.roomData = response.data.map((item: any) => ({
+          ...item,
+          formattedCreateTime: this.convertTicksToDateTime(item.createTime)
+        }));
         this.totalRooms = response.totalCount || response.data.length;
       } else {
         console.error('Unexpected response format:', response);
@@ -129,27 +138,27 @@ ngOnInit(): void {
   get totalRoomPages(): number {
     return Math.ceil(this.totalRooms / this.roomsPerPage);
   }
-  
+
   setUserPage(page: number) {
-    if (page < 1 || page > this.totalUserPages) return; 
+    if (page < 1 || page > this.totalUserPages) return;
     this.currentUserPage = page;
-    this.loadUsers(); 
+    this.loadUsers();
   }
   setPostPage(page: number) {
-    if (page < 1 || page > this.totalPostPages) return; 
+    if (page < 1 || page > this.totalPostPages) return;
     this.currentPostPage = page;
-    this.loadPosts(); 
+    this.loadPosts();
   }
   setRoomPage(page: number) {
-    if (page < 1 || page > this.totalRoomPages) return; 
+    if (page < 1 || page > this.totalRoomPages) return;
     this.currentRoomPage = page;
-    this.loadRooms(); 
+    this.loadRooms();
   }
   get paginationUserRange(): (number | string)[] {
     const totalPages = this.totalUserPages;
     const currentPage = this.currentUserPage;
     const range: (number | string)[] = [];
-  
+
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) {
         range.push(i);
@@ -176,7 +185,7 @@ ngOnInit(): void {
     const totalPages = this.totalPostPages;
     const currentPage = this.currentPostPage;
     const range: (number | string)[] = [];
-  
+
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) {
         range.push(i);
@@ -202,7 +211,7 @@ ngOnInit(): void {
     const totalPages = this.totalRoomPages;
     const currentPage = this.currentRoomPage;
     const range: (number | string)[] = [];
-  
+
     if (totalPages <= 7) {
       for (let i = 1; i <= totalPages; i++) {
         range.push(i);
@@ -239,6 +248,21 @@ ngOnInit(): void {
     if (typeof page === 'number') {
       this.setRoomPage(page);
     }
+  }
+  convertTicksToDateTime(ticks: number): string {
+    const epochTicks = 621355968000000000;
+    const tickMs = 0.0001;
+    const jsTime = (ticks - epochTicks) * tickMs;
+    const date = new Date(jsTime);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 }
 
