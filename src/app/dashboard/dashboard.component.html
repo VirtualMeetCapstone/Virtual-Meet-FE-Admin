@@ -115,7 +115,7 @@
 
                         <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><img [src]="item.picture.url" class="avatar" alt="Avatar"> {{item.name}} </a></td>
                         <td>London</td>
-                        <td>Jun 15, 2017</td>
+                        <td>{{item.formattedCreateTime}}</td>
                         <td><span class="status text-success">&bull;</span> Active</td>
                         <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
 
@@ -179,7 +179,7 @@
 
                         <td><a [routerLink]="['/room-detail',item.id]" routerLinkActive="active">{{item.id}}</a></td>
                         <td>{{item.owner.name}}</td>
-                        <td>{{item.createTime}}</td>
+                        <td>{{item.formattedCreateTime}}</td>
                         <td><span class="status text-success">&bull;</span> {{item.status}}</td>
                         <td><a [routerLink]="['/room-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
 
@@ -249,7 +249,7 @@
                             {{item.user.name}}
                           </a></td>
                         <td class="content-cell">{{item.content}}</td>
-                        <td>{{item.createTime}}</td>
+                        <td>{{item.formattedCreateTime}}</td>
                         <td >{{item.countReaction}}</td>
                         <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
 
