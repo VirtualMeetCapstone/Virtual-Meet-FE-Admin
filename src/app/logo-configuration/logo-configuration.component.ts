@@ -9,7 +9,9 @@ import {LogoServiceService} from '../Service/logo-service/logo-service.service';
 export class LogoConfigurationComponent implements OnInit {
   logoUrl: string = 'assets/default-logo.png';
   selectedFile: File | null = null;
-constructor(private logoService: LogoServiceService) {
+  isLoading = false;
+
+  constructor(private logoService: LogoServiceService) {
 }
   ngOnInit(): void {
     this.logoService.getLogo().subscribe({
@@ -36,9 +38,12 @@ constructor(private logoService: LogoServiceService) {
 
   saveLogo(): void {
     if (!this.selectedFile) return;
+    this.isLoading = true; // Bắt đầu loading
 
     this.logoService.updateLogo(this.selectedFile).subscribe({
       next: (res) => {
+        this.isLoading = false; // Dừng loading
+
         if (res?.success) {
           alert('Logo updated successfully!');
           this.logoUrl = URL.createObjectURL(this.selectedFile!);
@@ -48,6 +53,8 @@ constructor(private logoService: LogoServiceService) {
         }
       },
       error: () => {
+        this.isLoading = false; // Dừng loading
+
         alert('An error occurred while uploading logo.');
       }
     });
