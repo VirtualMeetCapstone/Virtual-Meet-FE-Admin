@@ -38,7 +38,7 @@
           <th>Hosted By</th>
           <th>Create Date</th>
           <th>Status</th>
-          <th>Is Reported</th>
+<!--          <th>Is Reported</th>-->
           <th>Detail</th>
           <th style="text-align: center;">Action</th>
 
@@ -54,7 +54,7 @@
 
           <td [class.reported-row]="item.isReported"><span class="status text-success">&bull;</span> {{ item.status }}
           </td>
-          <td [class.reported-row]="item.isReported">{{ item.isReported }}</td>
+<!--          <td [class.reported-row]="item.isReported">{{ item.isReported }}</td>-->
           <td [class.reported-row]="item.isReported"><a [routerLink]="['/room-detail',item.id]"
                                                         routerLinkActive="active"><i class="fa-solid fa-eye"></i></a>
           </td>

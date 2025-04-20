@@ -39,7 +39,7 @@
           <th>Create Date</th>
           <th>Status</th>
           <th>Is Deleted?</th>
-          <th>Is Reported?</th>
+<!--          <th>Is Reported?</th>-->
 
           <th>Detail</th>
           <th style="text-align: center;">Action</th>
@@ -50,18 +50,19 @@
         <tr *ngFor="let item of userData">
 
           <td [class.reported-row]="item.isReported"><a [routerLink]="['/user-detail',item.id]"
-                                                   routerLinkActive="active"><img [src]="item.picture.url"
-                                                                                  class="avatar"
-                                                                                  alt="Avatar"> {{ item.name }}
+                                                        routerLinkActive="active"><img [src]="item.picture.url"
+                                                                                       class="avatar"
+                                                                                       alt="Avatar"> {{ item.name }}
           </a></td>
           <td [class.reported-row]="item.isReported">London</td>
           <td [class.reported-row]="item.isReported">{{ item.formattedCreateTime }}</td>
 
           <td [class.reported-row]="item.isReported"><span class="status text-success">&bull;</span> Active</td>
           <td [class.reported-row]="item.isReported">{{ item.isDeleted }}</td>
-          <td [class.reported-row]="item.isReported">{{ item.isReported }}</td>
+<!--          <td [class.reported-row]="item.isReported">{{ item.isReported }}</td>-->
 
-          <td [class.reported-row]="item.isReported"><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><i
+          <td [class.reported-row]="item.isReported"><a [routerLink]="['/user-detail',item.id]"
+                                                        routerLinkActive="active"><i
             class="fa-solid fa-eye"></i></a>
           </td>
 
