@@ -28,5 +28,6 @@ export interface Media {
     lastModifyTime: number;
     isReported: boolean;
     formattedCreateTime?: string;
+    totalReactions: number;
 
   }

@@ -60,7 +60,7 @@
           <td [class.reported-row]="item.isReported" class="content-cell">{{ item.content }}</td>
           <td [class.reported-row]="item.isReported">{{ item.formattedCreateTime }}</td>
 
-          <td [class.reported-row]="item.isReported">{{ item.countReaction }}</td>
+          <td [class.reported-row]="item.isReported" style="text-align: center">{{ item.totalReactions }}</td>
 
           <td [class.reported-row]="item.isReported"><a [routerLink]="['/post-detail',item.id]"
                                                         routerLinkActive="active"><i class="fa-solid fa-eye"></i></a>
