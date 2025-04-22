@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const body = document.body;
-        if (event.urlAfterRedirects === '/' || event.url === '/dashboard' || event.url.startsWith('/post-detail/')) {
+        if (event.urlAfterRedirects === '/' || event.url === '/dashboard' || event.url.startsWith('/post-detail/') || event.url === '/report-list') {
           body.classList.add('dashboard-page');
           body.classList.remove('other-page');
         } else {
