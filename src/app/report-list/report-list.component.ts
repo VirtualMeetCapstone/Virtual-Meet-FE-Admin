@@ -49,7 +49,6 @@ export class ReportListComponent implements OnInit {
         );
 
       forkJoin(userFetches).subscribe((reports: Reports[]) => {
-       alert(reports[0].targetReporter.isDeleted) ;
         this.reportsData = reports.filter(report => !report.targetReporter.isDeleted);
         console.log(this.reportsData);
       });
@@ -114,6 +113,7 @@ export class ReportListComponent implements OnInit {
 
       this.selectedUserId = null;
       this.closeModal();
+      window.location.reload();
     }, error => {
       console.error('Error deleting room:', error);
     });
