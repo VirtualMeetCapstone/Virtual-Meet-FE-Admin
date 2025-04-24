@@ -16,10 +16,14 @@ import {PostReportComponent} from './post-report/post-report.component';
 import {RevenueReportComponent} from './revenue-report/revenue-report.component';
 import {LogoConfigurationComponent} from './logo-configuration/logo-configuration.component';
 import {ReportListComponent} from './report-list/report-list.component';
+import {RoomReportedListComponent} from './room-reported-list/room-reported-list.component';
+import {LoginGoogleComponent} from './login-google/login-google.component';
 
 
 export const routes: Routes = [
-  {path: "", component: DashboardComponent},
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginGoogleComponent },
+  {path: "dashboard", component: DashboardComponent},
 
   {path: "user-manager", component: UserManagerComponent},
   {path: "room-manager", component: RoomManagerComponent},
@@ -37,8 +41,7 @@ export const routes: Routes = [
   {path: "revenue-report", component: RevenueReportComponent},
   {path: "logo-configuration", component: LogoConfigurationComponent},
   {path: "report-list", component: ReportListComponent},
-
-
+  {path: "room-reported-list", component: RoomReportedListComponent},
 
 
 ];
