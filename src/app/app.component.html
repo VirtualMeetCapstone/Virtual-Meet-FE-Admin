@@ -1,6 +1,6 @@
 <!-- app.component.html -->
-<div class="container-scroller">
-  <app-header-admin></app-header-admin>
+<div class="container-scroller"  *ngIf="!isLoginPage() ">
+  <app-header-admin ></app-header-admin>
   <div class="container-fluid page-body-wrapper">
     <app-sidebar-admin></app-sidebar-admin>
     <div class=" main-panel">
@@ -11,4 +11,7 @@
       <app-footer></app-footer>
     </div>
   </div>
+</div>
+<div  *ngIf="isLoginPage() ">
+  <app-login-google></app-login-google>
 </div>

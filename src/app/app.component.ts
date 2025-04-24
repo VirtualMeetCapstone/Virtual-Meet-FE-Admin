@@ -2,16 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import { HeaderAdminComponent } from "./header-admin/header-admin.component";
 import { SidebarAdminComponent } from "./sidebar-admin/sidebar-admin.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
 import { FooterComponent } from "./footer/footer.component";
 import { CommonModule } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http';
-import {LogoServiceService} from './Service/logo-service/logo-service.service'; // Import provideHttpClient
+import {LogoServiceService} from './Service/logo-service/logo-service.service';
+import {LoginGoogleComponent} from './login-google/login-google.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HeaderAdminComponent, SidebarAdminComponent, RouterOutlet, FooterComponent, CommonModule],
+  imports: [HeaderAdminComponent, SidebarAdminComponent, RouterOutlet, FooterComponent, CommonModule, LoginGoogleComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'], // Corrected from styleUrl to styleUrls
 
@@ -19,7 +18,12 @@ import {LogoServiceService} from './Service/logo-service/logo-service.service'; 
 export class AppComponent implements OnInit {
   title = 'Virtual-Meet-FE-Admin-main';
   logoUrl = 'assets/logo.png';
+  currentRoute: string = '';
+
   constructor(private router: Router, private logoService: LogoServiceService) {
+    this.router.events.subscribe(() => {
+      this.currentRoute = this.router.url;
+    });
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const body = document.body;
@@ -34,6 +38,11 @@ export class AppComponent implements OnInit {
     });
   }
 
+
+
+  isLoginPage(): boolean {
+    return this.currentRoute === '/login';
+  }
   ngOnInit(): void {
     this.logoService.getLogo().subscribe({
       next: (res) => {
