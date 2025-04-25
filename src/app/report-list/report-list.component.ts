@@ -4,7 +4,7 @@ import {forkJoin, map, Observable} from 'rxjs';
 import {UserService} from '../Service/user-service/user-service.service';
 import {User} from '../model/user';
 import {Reports} from '../model/reports';
-import {isPlatformBrowser, NgForOf} from '@angular/common';
+import {isPlatformBrowser, NgForOf, NgIf} from '@angular/common';
 import * as bootstrap from 'bootstrap';
 
 @Component({
@@ -12,13 +12,14 @@ import * as bootstrap from 'bootstrap';
   templateUrl: './report-list.component.html',
 
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ]
 })
 export class ReportListComponent implements OnInit {
   constructor(private reportService: ReportServiceService, private userService: UserService,
               @Inject(PLATFORM_ID) private platformId: Object,
-              ) {
+  ) {
   }
 
   public userReportedList: User[] = [];
@@ -71,9 +72,11 @@ export class ReportListComponent implements OnInit {
   }
 
 
+  reporterId: string = '';
 
-  delete1(userId: string): void {
+  delete1(reporterId: string, userId: string): void {
     this.selectedUserId = userId;
+    this.reporterId = reporterId;
     console.log(userId);
     if (this.modalInstanceDelete) {
       this.modalInstanceDelete.show();
@@ -82,6 +85,7 @@ export class ReportListComponent implements OnInit {
       console.error('Modal instance is not available');
     }
   }
+
   closeModal(): void {
     const modalElement = document.getElementById('deleteModal');
     if (modalElement) {
@@ -110,7 +114,17 @@ export class ReportListComponent implements OnInit {
     console.log(`Deleting room with ID: ${this.selectedUserId}`);
 
     this.userService.deleteUser(this.selectedUserId).subscribe(response => {
+      this.reportService.deleteReport(this.reporterId, this.selectedUserId).subscribe({
+        next: (res) => {
+          console.log('Deleted successfully:', res);
+          // Optionally reload list
+          window.location.reload();
 
+        },
+        error: (err) => {
+          console.error('Failed to delete:', err);
+        }
+      });
       this.selectedUserId = null;
       this.closeModal();
       window.location.reload();
