@@ -1,0 +1,33 @@
+name: Deploy Angular to Vercel
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+
+      - name: Clean cache and install dependencies
+        run: |
+            echo "🧹 Xóa thư mục node_modules, package-lock.json và cache npm..."
+            rm -rf node_modules package-lock.json .angular .cache dist
+            npm cache clean --force
+            echo "🚀 Cài đặt lại dependencies..."
+            npm install --legacy-peer-deps
+
+
+      - name: Build Angular
+        run: npm run build -- --configuration=production
+
+      - name: Deploy to Vercel
+        run: npx vercel --prod --force --token=${{ secrets.VERCEL_TOKEN }} --yes

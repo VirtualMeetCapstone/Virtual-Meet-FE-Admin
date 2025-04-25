@@ -1,5 +1,6 @@
 export const APP_CONSTANTS = {
-    REST_API_SERVIER : 'https://dev-vmeet2.runasp.net'
+  REST_API_SERVIER : 'https://dev-vmeet2.runasp.net',
+    REST_API_LOCAL : 'https://localhost:7035',
   };
 export const QuillConfiguration = {
   toolbar: [
