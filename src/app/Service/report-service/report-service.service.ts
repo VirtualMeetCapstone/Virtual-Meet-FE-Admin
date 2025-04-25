@@ -29,4 +29,10 @@ export class ReportServiceService {
 
     return throwError('Something bad happened; please try again later.');
   }
+  public deleteReport(reporterId: string, targetId: string | null): Observable<any> {
+    const url = `${this.REST_API_SERVER}/report-for-ban?reporterId=${reporterId}&targetId=${targetId}`;
+    return this.http.delete<any>(url, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
 }

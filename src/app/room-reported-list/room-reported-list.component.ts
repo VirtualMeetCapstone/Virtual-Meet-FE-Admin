@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {isPlatformBrowser, NgForOf} from "@angular/common";
+import {isPlatformBrowser, NgForOf, NgIf} from "@angular/common";
 import {ReportServiceService} from '../Service/report-service/report-service.service';
 import {UserService} from '../Service/user-service/user-service.service';
 import {User} from '../model/user';
@@ -12,7 +12,8 @@ import {RoomReport} from '../model/room-report';
 @Component({
   selector: 'app-room-reported-list',
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './room-reported-list.component.html',
   styleUrl: './room-reported-list.component.scss'
@@ -26,7 +27,7 @@ export class RoomReportedListComponent implements OnInit {
   public reportList: Observable<any>[] = [];
   public reportsData: Reports[] = [];
   public roomReportData: RoomReport[] = [];
-
+  reporterId: string = '';
   selectedRoomId: string | null = null;
   private modalInstanceDelete: bootstrap.Modal | null = null;
 
@@ -53,7 +54,6 @@ export class RoomReportedListComponent implements OnInit {
 
       forkJoin(userRoomFetches).subscribe((roomReports: any[]) => {
         this.roomReportData = roomReports.filter(report => !report.reportedRoom?.isDeleted);
-        console.log(this.roomReportData);
       });
     });
 
@@ -75,8 +75,9 @@ export class RoomReportedListComponent implements OnInit {
   }
 
 
-  delete1(userId: string): void {
+  delete1(userId: string, reporterId: string): void {
     this.selectedRoomId = userId;
+    this.reporterId = reporterId;
     console.log(userId);
     if (this.modalInstanceDelete) {
       this.modalInstanceDelete.show();
@@ -115,7 +116,18 @@ export class RoomReportedListComponent implements OnInit {
 
     this.roomService.deleteRoom(this.selectedRoomId).subscribe(response => {
 
-      this.selectedRoomId = null;
+      this.reportService.deleteReport(this.reporterId, this.selectedRoomId).subscribe({
+        next: (res) => {
+          console.log('Deleted successfully:', res);
+          // Optionally reload list
+          window.location.reload();
+          this.selectedRoomId = null;
+
+        },
+        error: (err) => {
+          console.error('Failed to delete:', err);
+        }
+      });
       this.closeModal();
       window.location.reload();
     }, error => {
