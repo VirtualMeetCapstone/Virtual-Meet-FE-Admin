@@ -25938,7 +25938,7 @@ body.other-page .sidebar {
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  margin-top:20px;
+  margin-top:10px;
   min-height: 91vh;
 }
 
@@ -26565,3 +26565,6 @@ body.other-page .sidebar {
   }
 }
 /*# sourceMappingURL=style.css.map */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -63,3 +63,19 @@ th {
   align-items: center;
 }
 
+/* Áp dụng cho từng phần tử */
+.mat-mdc-table {
+  background: transparent !important;
+
+  & .mat-mdc-header-row {
+    background: #ff0055 !important; /* Màu header */
+  }
+
+  & .mat-mdc-row {
+    background: #4e4e4e !important; /* Màu row */
+
+    &:nth-child(even) {
+      background: #4e4e4e !important; /* Màu xen kẽ */
+    }
+  }
+}
