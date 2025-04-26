@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import * as XLSX from 'xlsx';
 import {FormsModule} from '@angular/forms';
 import {
   MatCell,
@@ -16,6 +15,9 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {DurationFormatPipe} from '../duration-format.pipe';
 import {RoomServiceService} from '../Service/room-service/room-service.service';
+import {RouterLink} from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import {MatAnchor} from '@angular/material/button';
 @Component({
   selector: 'app-meeting-report',
   standalone: true,
@@ -36,13 +38,16 @@ import {RoomServiceService} from '../Service/room-service/room-service.service';
     MatHeaderRowDef,
     MatInput,
     MatSortModule,
-    DurationFormatPipe
+    DurationFormatPipe,
+    RouterLink,
+    MatIconModule,
+    MatAnchor
   ],
   templateUrl: './meeting-report.component.html',
   styleUrl: './meeting-report.component.scss'
 })
 export class MeetingReportComponent implements OnInit {
-  displayedColumns: string[] = ['roomTopic', 'ownerName', 'startTime', 'endTime', 'longestSessionTicks', 'averageUserSessionTicks', 'totalJoins'];
+  displayedColumns: string[] = ['roomTopic', 'ownerName', 'startTime', 'endTime', 'longestSessionTicks', 'averageUserSessionTicks', 'totalJoins', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

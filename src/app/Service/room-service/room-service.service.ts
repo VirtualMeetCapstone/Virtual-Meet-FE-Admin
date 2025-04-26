@@ -73,4 +73,10 @@ export class RoomServiceService {
       .get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
+  public getMeetingReportDetail(id: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}/RoomStatictis/${id}`;
+    return this.http
+      .get<any>(url, this.httpOptions)
+      .pipe(catchError(this.handleError));
+  }
 }
