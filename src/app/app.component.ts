@@ -7,11 +7,21 @@ import { CommonModule } from '@angular/common';
 import {LogoServiceService} from './Service/logo-service/logo-service.service';
 import {LoginGoogleComponent} from './login-google/login-google.component';
 import { AuthServiceService } from './Service/auth-service/auth-service.service';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+// @ts-ignore
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HeaderAdminComponent, SidebarAdminComponent, RouterOutlet, FooterComponent, CommonModule, LoginGoogleComponent],
+  imports: [HeaderAdminComponent, SidebarAdminComponent, RouterOutlet, FooterComponent, CommonModule, LoginGoogleComponent, MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'], // Corrected from styleUrl to styleUrls
 
