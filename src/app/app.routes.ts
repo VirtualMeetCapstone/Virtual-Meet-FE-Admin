@@ -20,6 +20,7 @@ import {RoomReportedListComponent} from './room-reported-list/room-reported-list
 import {LoginGoogleComponent} from './login-google/login-google.component';
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { AdminGuardService } from './Service/guard-service/admin-guard.service';
+import {MeetingReportDetailComponent} from './meeting-report-detail/meeting-report-detail.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,8 @@ export const routes: Routes = [
   { path: 'logo-configuration', component: LogoConfigurationComponent, canActivate: [AdminGuardService] },
   { path: 'report-list', component: ReportListComponent, canActivate: [AdminGuardService] },
   { path: 'room-reported-list', component: RoomReportedListComponent, canActivate: [AdminGuardService] },
+  { path: 'meeting-report/:id', component: MeetingReportDetailComponent, canActivate: [AdminGuardService] },
+
 ];
 
 

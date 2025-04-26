@@ -1,0 +1,103 @@
+<div class="meeting-container">
+  <div class="header-section">
+
+  </div>
+
+  <div class="card-container" style="margin-top: 50px">
+    <!-- Main Info Card -->
+    <mat-card class="main-info-card">
+      <mat-card-header>
+        <mat-card-title style="color: white">{{ dataSource.data[0]?.roomTopic }}</mat-card-title>
+        <mat-card-subtitle>
+          Hosted by: {{ dataSource.data[0]?.ownerName }}
+          <img [src]="dataSource.data[0]?.joinLogs[0]?.user?.imageUrl" class="avatar" alt="host avatar">
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <mat-icon>calendar_today</mat-icon>
+            <div>
+              <h4>Start Time</h4>
+              <p>{{ dataSource.data[0]?.startTime | date: 'medium' }}</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <mat-icon>schedule</mat-icon>
+            <div>
+              <h4>Duration</h4>
+              <p>{{ dataSource.data[0]?.durationTicks | durationFormat }}</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <mat-icon>people</mat-icon>
+            <div>
+              <h4>Peak Users</h4>
+              <p>{{ dataSource.data[0]?.peakUsers }}</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <mat-icon>person_add</mat-icon>
+            <div>
+              <h4>Total Joins</h4>
+              <p>{{ dataSource.data[0]?.totalJoins }}</p>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Participants Section -->
+    <mat-card class="participants-card">
+      <mat-card-header>
+        <mat-card-title>Participants</mat-card-title>
+        <mat-card-subtitle>Total: {{ dataSource.data[0]?.totalUniqueUsers }} users</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item *ngFor="let log of dataSource.data[0]?.joinLogs" class="participant-item">
+            <div mat-line>{{ log.user.name }}</div>
+            <div mat-line>Joined: {{ log.time | date: 'shortTime' }}</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Session Details Table -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Session Metrics</mat-card-title>
+      </mat-card-header>
+
+      <table mat-table [dataSource]="metricsDataSource" matSort class="metrics-table">
+        <!-- Metric Column -->
+        <ng-container matColumnDef="metric">
+          <th mat-header-cell *matHeaderCellDef>Metric</th>
+          <td mat-cell *matCellDef="let element">{{ element.metric }}</td>
+        </ng-container>
+
+        <!-- Value Column -->
+        <ng-container matColumnDef="value">
+          <th mat-header-cell *matHeaderCellDef>Value</th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container [ngSwitch]="element.type">
+              <span *ngSwitchCase="'duration'">{{ element.value | durationFormat }}</span>
+              <span *ngSwitchCase="'date'">{{ element.value | date: 'medium' }}</span>
+              <span *ngSwitchDefault>{{ element.value }}</span>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card>
+  </div>
+</div>
