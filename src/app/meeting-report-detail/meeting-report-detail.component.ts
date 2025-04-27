@@ -17,6 +17,8 @@ import {MatDivider, MatList, MatListItem} from '@angular/material/list';
 import {MatPaginator} from '@angular/material/paginator';
 import {RoomServiceService} from '../Service/room-service/room-service.service';
 import {ActivatedRoute} from '@angular/router';
+import {UserService} from '../Service/user-service/user-service.service';
+import {User} from '../model/user';
 interface MetricItem {
   metric: string;
   value: any;
@@ -63,16 +65,19 @@ export class MeetingReportDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private meetingService: RoomServiceService,private route: ActivatedRoute) {}
+  constructor(private meetingService: RoomServiceService,private route: ActivatedRoute, private userService: UserService) {}
   metricsDataSource = new MatTableDataSource<MetricItem>([]);
   displayedColumns: string[] = ['metric', 'value'];
-
+  user: User | null = null;
   ngOnInit(): void {
     const meetingID: string = <string>this.route.snapshot.paramMap.get('id') ;
-
     this.meetingService.getMeetingReportDetail(meetingID).subscribe(data => {
       // Main data
       this.dataSource.data = [data];
+       this.userService.getUserDetail(this.dataSource.data[0].ownerId).subscribe((data) => {
+         this.user = data;
+       })
+
       // Prepare metrics data
       this.metricsDataSource.data = [
         { metric: 'Longest Session', value: data.longestSessionTicks, type: 'duration' },
