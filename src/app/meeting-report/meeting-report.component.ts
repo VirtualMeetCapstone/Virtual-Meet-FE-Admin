@@ -597,6 +597,11 @@ export class MeetingReportComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.sort.sort({
+      id: 'endTime',
+      start: 'desc',
+      disableClear: false
+    });
   }
 
   applyFilter(event: Event) {
