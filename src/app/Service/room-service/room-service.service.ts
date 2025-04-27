@@ -68,7 +68,7 @@ export class RoomServiceService {
     return throwError('Something bad happened; please try again later.');
   }
   public getMeetingReport(): Observable<any> {
-    const url = `${this.REST_API_SERVER}/RoomStatictis?Top=999999&Skip=0`;
+    const url = `${this.REST_API_SERVER}/RoomStatictis?Top=1000000000&Skip=0`;
     return this.http
       .get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError));
