@@ -1,7 +1,7 @@
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpHeaders,
+  HttpHeaders, HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, from, Observable, throwError } from 'rxjs';
@@ -78,5 +78,12 @@ export class RoomServiceService {
     return this.http
       .get<any>(url, this.httpOptions)
       .pipe(catchError(this.handleError));
+  }
+  getMeetingReportsByDateRange(startDate: string, endDate: string): Observable<any> {
+    const params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+
+    return this.http.get(`${this.REST_API_SERVER}/RoomStatictis/date-range`, { params });
   }
 }
