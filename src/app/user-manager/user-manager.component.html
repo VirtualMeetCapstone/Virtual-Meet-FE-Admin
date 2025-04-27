@@ -19,7 +19,12 @@
               <i class="fa fa-spinner fa-spin"></i> Loading...
             </div>
           </div>
-          <div class="col-sm-9">
+          <div class="col-sm-3">
+
+            <a style="height: 40px" routerLink="/report-list" class="btn btn-primary">User Reported <i
+              style="color: white; margin-left: 10px" class="fa-solid fa-triangle-exclamation"></i> </a>
+          </div>
+          <div class="col-sm-6">
             <button type="button" (click)="searchUser()" class="btn btn-primary"><i class="fa fa-search"></i></button>
             <div class="filter-group">
               <label>Name</label>
@@ -39,7 +44,7 @@
           <th>Create Date</th>
           <th>Status</th>
           <th>Is Deleted?</th>
-<!--          <th>Is Reported?</th>-->
+          <!--          <th>Is Reported?</th>-->
 
           <th>Detail</th>
           <th style="text-align: center;">Action</th>
@@ -59,7 +64,7 @@
 
           <td [class.reported-row]="item.isReported"><span class="status text-success">&bull;</span> Active</td>
           <td [class.reported-row]="item.isReported">{{ item.isDeleted }}</td>
-<!--          <td [class.reported-row]="item.isReported">{{ item.isReported }}</td>-->
+          <!--          <td [class.reported-row]="item.isReported">{{ item.isReported }}</td>-->
 
           <td [class.reported-row]="item.isReported"><a [routerLink]="['/user-detail',item.id]"
                                                         routerLinkActive="active"><i
