@@ -100,12 +100,7 @@ export class MeetingReportComponent implements OnInit {
   ngOnInit(): void {
     this.meetingService.getMeetingReport().subscribe({
       next: (response) => {
-        // Kiểm tra cấu trúc dữ liệu trả về
-        console.log('API Response:', response);
-
-        // Nếu API trả về dạng { data: [], totalCount: number }
         this.dataSource.data = response.data || response;
-        // Nếu cần phân trang
         if (this.paginator) {
           this.dataSource.paginator = this.paginator;
         }
@@ -143,12 +138,8 @@ export class MeetingReportComponent implements OnInit {
     this.endDate = null;
     this.meetingService.getMeetingReport().subscribe({
       next: (response) => {
-        // Kiểm tra cấu trúc dữ liệu trả về
-        console.log('API Response:', response);
 
-        // Nếu API trả về dạng { data: [], totalCount: number }
         this.dataSource.data = response.data || response;
-        // Nếu cần phân trang
         if (this.paginator) {
           this.dataSource.paginator = this.paginator;
         }
