@@ -16,7 +16,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {DurationFormatPipe} from '../duration-format.pipe';
 import {RoomServiceService} from '../Service/room-service/room-service.service';
 import {RouterLink} from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
 import {MatAnchor, MatButtonModule} from '@angular/material/button';
 import {
   MatDatepicker,
@@ -27,6 +27,7 @@ import {
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
 import {min} from 'rxjs';
+
 @Component({
   selector: 'app-meeting-report',
   standalone: true,
@@ -75,12 +76,11 @@ export class MeetingReportComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   startDate: Date | null = null;
   endDate: Date | null = null;
-  constructor(private meetingService: RoomServiceService,private datePipe: DatePipe) {
+
+  constructor(private meetingService: RoomServiceService, private datePipe: DatePipe) {
     // Giả sử dữ liệu được lấy từ API hoặc truyền vào như biến input
     const jsonData = {
-      "data": [
-
-      ],
+      "data": [],
       "totalCount": 1
     };
     this.dataSource.data = jsonData.data;
@@ -113,6 +113,7 @@ export class MeetingReportComponent implements OnInit {
       }
     });
   }
+
   filterByDate(): void {
     if (!this.startDate || !this.endDate) {
       alert('Please select both start and end dates');
@@ -127,7 +128,7 @@ export class MeetingReportComponent implements OnInit {
         this.meetingService.getMeetingReportsByDateRange(formattedStart, formattedEnd)
           .subscribe(filteredData => {
             this.dataSource.data = filteredData;
-            console.log("data sau khi filter",this.dataSource.data);
+            console.log("data sau khi filter", this.dataSource.data);
           });
       }
     }
