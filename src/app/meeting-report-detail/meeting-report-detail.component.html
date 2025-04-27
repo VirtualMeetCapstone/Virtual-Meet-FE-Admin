@@ -10,7 +10,7 @@
         <mat-card-title style="color: white">{{ dataSource.data[0]?.roomTopic }}</mat-card-title>
         <mat-card-subtitle>
           Hosted by: {{ dataSource.data[0]?.ownerName }}
-          <img [src]="dataSource.data[0]?.joinLogs[0]?.user?.imageUrl" class="avatar" alt="host avatar">
+          <img [src]="user?.picture?.url" class="avatar" alt="host avatar">
         </mat-card-subtitle>
       </mat-card-header>
 
