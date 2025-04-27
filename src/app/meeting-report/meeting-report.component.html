@@ -43,25 +43,21 @@
       <td mat-cell *matCellDef="let room">{{ room.ownerName }}</td>
     </ng-container>
 
-    <!-- Start Time Column -->
     <ng-container matColumnDef="startTime">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Time</th>
       <td mat-cell *matCellDef="let room">{{ room.startTime | date: 'medium' }}</td>
     </ng-container>
 
-    <!-- End Time Column -->
     <ng-container matColumnDef="endTime">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>End Time</th>
       <td mat-cell *matCellDef="let room">{{ room.endTime | date: 'medium' }}</td>
     </ng-container>
 
-    <!-- Peak Users Column -->
     <ng-container matColumnDef="longestSessionTicks">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Longest Session</th>
       <td mat-cell *matCellDef="let room">{{ room.longestSessionTicks | durationFormat }}</td>
     </ng-container>
 
-    <!-- Total Unique Users Column -->
     <ng-container matColumnDef="averageUserSessionTicks">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Average Session</th>
       <td mat-cell *matCellDef="let room">{{ room.averageUserSessionTicks | durationFormat}}</td>
@@ -70,7 +66,6 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Join</th>
       <td mat-cell *matCellDef="let room">{{ room.totalJoins }}</td>
     </ng-container>
-    <!-- Thêm cột Action vào displayedColumns -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let room">
