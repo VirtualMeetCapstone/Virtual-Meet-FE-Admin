@@ -1,70 +1,48 @@
 
 <div class="content-wrapper">
-<!--     <div class="row">-->
-<!--        <div class="col-md-8 grid-margin stretch-card">-->
-<!--          <div class="card">-->
-<!--            <div class="card-body performane-indicator-card">-->
-<!--              <div class="d-sm-flex">-->
-<!--                <h4 class="card-title flex-shrink-1">Performance Indicator</h4>-->
-<!--                <p class="m-sm-0 ms-sm-auto flex-shrink-0">-->
-<!--                  <span class="data-time-range ms-0">7d</span>-->
-<!--                  <span class="data-time-range active">2w</span>-->
-<!--                  <span class="data-time-range">1m</span>-->
-<!--                  <span class="data-time-range">3m</span>-->
-<!--                  <span class="data-time-range">6m</span>-->
-<!--                </p>-->
-<!--              </div>-->
-<!--              <div class="d-sm-flex flex-wrap mt-3">-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <span class="dot-indicator bg-primary ms-2"></span>-->
-<!--                  <p class="mb-0 ms-2 text-muted font-weight-semibold">Complaints (2098)</p>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <span class="dot-indicator bg-info ms-2"></span>-->
-<!--                  <p class="mb-0 ms-2 text-muted font-weight-semibold"> Task Done (1123)</p>-->
-<!--                </div>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <span class="dot-indicator bg-danger ms-2"></span>-->
-<!--                  <p class="mb-0 ms-2 text-muted font-weight-semibold">Attends (876)</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="dotted-chart-height">-->
-<!--                <canvas id="performance-indicator-chart" class="mt-5"></canvas>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-4 grid-margin stretch-card">-->
-<!--          <div class="card">-->
-<!--            <div class="card-body">-->
-<!--              <h4 class="card-title">Sessions by channel</h4>-->
-<!--              <div class="aligner-wrapper py-3">-->
-<!--                <div class="doughnut-chart-height">-->
-<!--                  <canvas id="sessionsDoughnutChart" height="210"></canvas>-->
-<!--                </div>-->
-<!--                <div class="wrapper d-flex flex-column justify-content-center absolute absolute-center">-->
-<!--                  <h2 class="text-center mb-0 font-weight-bold">8.234</h2>-->
-<!--                  <small class="d-block text-center text-muted  font-weight-semibold mb-0">Total Leads</small>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="wrapper mt-4 d-flex flex-wrap align-items-cente">-->
-<!--                <div class="d-flex">-->
-<!--                  <span class="square-indicator bg-danger ms-2"></span>-->
-<!--                  <p class="mb-0 ms-2">Assigned</p>-->
-<!--                </div>-->
-<!--                <div class="d-flex">-->
-<!--                  <span class="square-indicator bg-success ms-2"></span>-->
-<!--                  <p class="mb-0 ms-2">Not Assigned</p>-->
-<!--                </div>-->
-<!--                <div class="d-flex">-->
-<!--                  <span class="square-indicator bg-warning ms-2"></span>-->
-<!--                  <p class="mb-0 ms-2">Reassigned</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+  <div class="filter-container">
+    <div class="date-group">
+      <label for="from-date"><strong>From Date:</strong></label>
+      <input
+        type="date"
+        id="from-date"
+        [(ngModel)]="beforeDate"
+        (ngModelChange)="onDateChange()"
+        [max]="afterDate"
+        name="from-date"
+      >
+    </div>
+
+    <div class="date-group">
+      <label for="to-date"><strong>To Date:</strong></label>
+      <input
+        type="date"
+        id="to-date"
+        [(ngModel)]="afterDate"
+        (ngModelChange)="onDateChange()"
+        [min]="beforeDate"
+        [max]="today"
+        name="to-date"
+      >
+    </div>
+  </div>
+
+  <div *ngIf="barChartData" class="chart-container">
+    <canvas baseChart style="display: block; box-sizing: border-box; height: 400px; width: 1000px;"
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="'bar'">
+    </canvas>
+  </div>
+  <div class="chart-container">
+    <canvas baseChart id="barchart"
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            [type]="'line'">
+    </canvas>
+  </div>
+
+
   <div class="row" style="margin-top: 90px">
     <div class="col-md-12 grid-margin">
       <div class="card">
@@ -81,7 +59,7 @@
               <div class="inner-card-text">
                 <span class="report-title">Total Users</span>
                 <h4>{{totalUsers}}</h4>
-                <span class="report-count">  <a routerLink="/user-report">User Report</a> </span>
+                <span class="report-count">  <a style="text-decoration: none" routerLink="/user-report">User Report</a> </span>
               </div>
               <div class="inner-card-icon bg-success">
                 <i class="icon-rocket"></i>
@@ -91,7 +69,7 @@
               <div class="inner-card-text">
                 <span class="report-title">Total Rooms</span>
                 <h4>{{totalRooms}}</h4>
-                <span class="report-count"> <a routerLink="/meeting-report">Room Report</a></span>
+                <span class="report-count"> <a style="text-decoration: none" routerLink="/meeting-report">Room Report</a></span>
               </div>
               <div class="inner-card-icon bg-danger">
                 <i class="icon-briefcase"></i>
@@ -101,7 +79,7 @@
               <div class="inner-card-text">
                 <span class="report-title">Total Posts</span>
                 <h4>{{ totalPosts }}</h4>
-                <span class="report-count"> <a routerLink="/post-report">Post Report</a></span>
+                <span class="report-count"> <a style="text-decoration: none" routerLink="/post-report">Post Report</a></span>
               </div>
               <div class="inner-card-icon bg-warning">
                 <i class="icon-globe-alt"></i>
@@ -110,8 +88,9 @@
             <div class="col-md-6 col-xl report-inner-card">
               <div class="inner-card-text">
                 <span class="report-title">Revenue</span>
-                <h4>25,542</h4>
-                <span class="report-count"><a routerLink="/revenue-report">User Report</a></span>
+                <h4>{{ revenueReport?.totalIncome | currency:'VND':'symbol':'1.0-0' }}</h4>
+
+                <span class="report-count"><a style="text-decoration: none" routerLink="/revenue-report">Revenue Report</a></span>
               </div>
               <div class="inner-card-icon bg-primary">
                 <i class="icon-diamond"></i>
@@ -122,210 +101,5 @@
       </div>
     </div>
   </div>
-      <!-- User Management-->
-     <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-sm-flex align-items-center mb-4">
-                <h4 class="card-title mb-sm-0">Recent Users</h4>
-                <a routerLink="/user-manager" class="text-dark ms-auto mb-3 mb-sm-0"> User Management</a>
-              </div>
-              <div class="table-responsive border rounded p-1">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th class="font-weight-bold">Customer</th>
-                      <th class="font-weight-bold">Location</th>
-                      <th class="font-weight-bold">Create Date</th>
-                      <th class="font-weight-bold">Status</th>
-                      <th class="font-weight-bold">Detail</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="userData" >
-                    <tr *ngFor="let item of userData">
 
-                        <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><img [src]="item.picture.url" class="avatar" alt="Avatar"> {{item.name}} </a></td>
-                        <td>London</td>
-                        <td>{{item.formattedCreateTime}}</td>
-                        <td><span class="status text-success">&bull;</span> Active</td>
-                        <td><a [routerLink]="['/user-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-
-                    </tr>
-
-                </tbody>
-                </table>
-              </div>
-              <div class="row d-flex mt-4 flex-wrap align-items-center ">
-                <div class="col-md-4 hint-text">
-                  Showing <b>{{ userData.length }}</b> out of <b>{{ totalUsers }}</b> entries
-                </div>
-                <div class="col-md-8">
-                  <ul *ngIf="totalUserPages > 1" class="pagination" style="justify-content: flex-end; margin-bottom: 0px;">
-                    <!-- Previous -->
-                    <li class="page-item" [class.disabled]="currentUserPage === 1">
-                      <a class="page-link" (click)="setUserPage(currentUserPage - 1)">Previous</a>
-                    </li>
-
-                    <!-- Dynamic Page Numbers -->
-                    <li class="page-item" *ngFor="let page of paginationUserRange" [class.active]="page === currentUserPage">
-                        <a *ngIf="page !== '...'" class="page-link" (click)="onUserPageClick(page)">{{ page }}</a>
-                        <span *ngIf="page === '...'" class="page-link">...</span>
-                      </li>
-
-                    <!-- Next -->
-                    <li class="page-item" [class.disabled]="currentUserPage === totalUserPages">
-                      <a class="page-link" (click)="setUserPage(currentUserPage + 1)">Next</a>
-                    </li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--Room Management -->
-      <div class="row">
-
-       <div class="col-md-12 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-sm-flex align-items-center mb-4">
-                <h4 class="card-title mb-sm-0">Recent Rooms</h4>
-                <a routerLink="/room-manager" class="text-dark ms-auto mb-3 mb-sm-0"> Room Management</a>
-              </div>
-              <div class="table-responsive border rounded p-1">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th class="font-weight-bold">Room ID</th>
-                      <th class="font-weight-bold">Hosted By</th>
-                      <th class="font-weight-bold">Create Date</th>
-                      <th class="font-weight-bold">Status</th>
-                      <th class="font-weight-bold">Detail</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="roomData">
-                    <tr *ngFor="let item of roomData">
-
-                        <td><a [routerLink]="['/room-detail',item.id]" routerLinkActive="active">{{item.id}}</a></td>
-                        <td>{{item.owner.name}}</td>
-                        <td>{{item.formattedCreateTime}}</td>
-                        <td><span class="status text-success">&bull;</span> {{item.status}}</td>
-                        <td><a [routerLink]="['/room-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-
-
-                    </tr>
-
-                </tbody>
-                </table>
-              </div>
-              <div class="row d-flex mt-4 flex-wrap align-items-center ">
-                <div class="col-md-4 hint-text">
-                  Showing <b>{{ roomData.length }}</b> out of <b>{{ totalRooms }}</b> entries
-                </div>
-                <div class="col-md-8">
-                  <ul *ngIf="totalRoomPages > 1" class="pagination" style="justify-content: flex-end; margin-bottom: 0px;">
-                    <!-- Previous -->
-                    <li class="page-item" [class.disabled]="currentRoomPage === 1">
-                      <a class="page-link" (click)="setRoomPage(currentRoomPage - 1)">Previous</a>
-                    </li>
-
-                    <!-- Dynamic Page Numbers -->
-                    <li class="page-item" *ngFor="let page of paginationRoomRange" [class.active]="page === currentRoomPage">
-                        <a *ngIf="page !== '...'" class="page-link" (click)="onRoomPageClick(page)">{{ page }}</a>
-                        <span *ngIf="page === '...'" class="page-link">...</span>
-                      </li>
-
-                    <!-- Next -->
-                    <li class="page-item" [class.disabled]="currentRoomPage === totalRoomPages">
-                      <a class="page-link" (click)="setRoomPage(currentRoomPage + 1)">Next</a>
-                    </li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-       <!--Post Management -->
-       <div class="row">
-
-        <div class="col-md-12 grid-margin stretch-card">
-           <div class="card">
-             <div class="card-body">
-               <div class="d-sm-flex align-items-center mb-4">
-                 <h4 class="card-title mb-sm-0">Recent Posts</h4>
-                 <a routerLink="/post-manager" class="text-dark ms-auto mb-3 mb-sm-0"> Post Management</a>
-               </div>
-               <div class="table-responsive border rounded p-1">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th class="font-weight-bold">Post ID</th>
-                      <th class="font-weight-bold">User</th>
-                      <th class="font-weight-bold">Content</th>
-                      <th class="font-weight-bold">Create Date</th>
-                      <th class="font-weight-bold">Reaction Count</th>
-                      <th class="font-weight-bold">Detail</th>
-
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="postData" >
-                    <tr *ngFor="let item of postData">
-                        <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active">{{item.id}}</a></td>
-
-                        <td><a style="text-decoration: none" >
-                            {{item.user.name}}
-                          </a></td>
-                        <td class="content-cell">{{item.content}}</td>
-                        <td>{{item.formattedCreateTime}}</td>
-                        <td >{{item.countReaction}}</td>
-                        <td><a [routerLink]="['/post-detail',item.id]" routerLinkActive="active"><i class="fa-solid fa-eye"></i></a></td>
-
-
-                    </tr>
-
-                </tbody>
-                </table>
-              </div>
-              <div class="row d-flex mt-4 flex-wrap align-items-center ">
-                <div class="col-md-4 hint-text">
-                  Showing <b>{{ postData.length }}</b> out of <b>{{ totalPosts }}</b> entries
-                </div>
-                <div class="col-md-8">
-                  <ul *ngIf="totalPostPages > 1" class="pagination" style="justify-content: flex-end; margin-bottom: 0px;">
-                    <!-- Previous -->
-                    <li class="page-item" [class.disabled]="currentPostPage === 1">
-                      <a class="page-link" (click)="setPostPage(currentPostPage - 1)">Previous</a>
-                    </li>
-
-                    <!-- Dynamic Page Numbers -->
-                    <li class="page-item" *ngFor="let page of paginationPostRange" [class.active]="page === currentPostPage">
-                        <a *ngIf="page !== '...'" class="page-link" (click)="onPostPageClick(page)">{{ page }}</a>
-                        <span *ngIf="page === '...'" class="page-link">...</span>
-                      </li>
-
-                    <!-- Next -->
-                    <li class="page-item" [class.disabled]="currentPostPage === totalPostPages">
-                      <a class="page-link" (click)="setPostPage(currentPostPage + 1)">Next</a>
-                    </li>
-                  </ul>
-                </div>
-
-              </div>
-             </div>
-           </div>
-         </div>
-       </div>
-
-
-
-
-    <!-- content-wrapper ends -->
-    <!-- partial:partials/_footer.html -->
-
-    <!-- partial -->
 </div>
