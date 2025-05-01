@@ -254,7 +254,7 @@ export class DashboardComponent implements OnInit {
                     postData.reportedPosts || 0,
                     0, 0, 0, 0
                   ],
-                  backgroundColor: '#FF9800'
+                  backgroundColor: '#2142AB'
                 },
                 {
                   label: 'Revenue Report',
@@ -264,7 +264,7 @@ export class DashboardComponent implements OnInit {
                     this.revenueInfo.totalPaidOrders || 0,
                     this.revenueInfo.totalCancelledOrders || 0
                   ],
-                  backgroundColor: '#4CAF50'
+                  backgroundColor: '#4F86F7'
                 }
 
               ]
@@ -472,7 +472,7 @@ export class DashboardComponent implements OnInit {
             ],
             backgroundColor: [
               '#786aec', '#8d81e6', '#726cc5',
-              '#FFC107', '#4CAF50', '#F44336'
+              '#2142AB', '#4F86F7', '#F44336'
             ]
           }
         ]
