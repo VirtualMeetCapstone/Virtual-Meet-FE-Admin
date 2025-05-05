@@ -40,7 +40,7 @@
         <tr>
 
           <th>Customer</th>
-          <th>Location</th>
+<!--          <th>Location</th>-->
           <th>Create Date</th>
           <th>Status</th>
           <th>Is Deleted?</th>
@@ -59,10 +59,11 @@
                                                                                        class="avatar"
                                                                                        alt="Avatar"> {{ item.name }}
           </a></td>
-          <td [class.reported-row]="item.isReported">London</td>
+<!--          <td [class.reported-row]="item.isReported">London</td>-->
           <td [class.reported-row]="item.isReported">{{ item.formattedCreateTime }}</td>
+          <td *ngIf="item.isDeleted" [class.reported-row]="item.isReported"><span class="status text-danger">&bull;</span> In Active</td>
 
-          <td [class.reported-row]="item.isReported"><span class="status text-success">&bull;</span> Active</td>
+          <td *ngIf="!item.isDeleted" [class.reported-row]="item.isReported"><span class="status text-success">&bull;</span> Active</td>
           <td [class.reported-row]="item.isReported">{{ item.isDeleted }}</td>
           <!--          <td [class.reported-row]="item.isReported">{{ item.isReported }}</td>-->
 
