@@ -25231,7 +25231,7 @@ body.dashboard-page .sidebar {
 }
 
 body.other-page .sidebar {
-  height: 100vh;
+  height: 95vh;
 }
 
 .sidebar .nav {
@@ -25938,9 +25938,9 @@ body.other-page .sidebar {
   width: 100%;
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
-  flex-grow: 1;
+  flex-grow: 0.2;
   margin-top:10px;
-  min-height: 91vh;
+  min-height: 92vh;
 }
 
 .quick-action-toolbar .card .card-header {

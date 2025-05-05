@@ -54,6 +54,7 @@ export class RoomReportedListComponent implements OnInit {
 
       forkJoin(userRoomFetches).subscribe((roomReports: any[]) => {
         this.roomReportData = roomReports.filter(report => !report.reportedRoom?.isDeleted);
+        console.log('ROOM REPORTED', this.roomReportData)
       });
     });
 
