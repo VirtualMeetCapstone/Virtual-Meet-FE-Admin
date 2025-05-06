@@ -3,11 +3,12 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import {EmailServiceService} from '../Service/email-service/email-service.service';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-email-configuration',
   standalone: true,
-  imports: [FormsModule, CommonModule, CKEditorModule],
+  imports: [FormsModule, CommonModule, CKEditorModule, ConfirmModalComponent],
   templateUrl: './email-configuration.component.html',
   styleUrl: './email-configuration.component.scss'
 })
@@ -59,16 +60,33 @@ VirtualMeet Team.`;
         break;
     }
   }
+  showSuccessModal: boolean = false;
+  isError: boolean = false;
 
   sendNotification() {
     this.emailService.emailNotification(this.emailSubject, this.emailMessage)
-      .subscribe(response => {
-        console.log('Email sent:', response);
-      }, error => {
-        console.error('Email error:', error);
+      .subscribe({
+        next: (res) => {
+          this.successMessage = 'Email sent successfully!';
+          this.showSuccessModal = true;
+          this.isError = false;
+          this.resetNotification();
+        },
+        error: (err: { error: { message: any } }) => {
+          console.error(err);
+          this.successMessage = err.error.message || 'Failed to sent email!';
+          this.showSuccessModal = true;
+          this.isError = true;
+          this.resetNotification();
+        }
       });
+  }
 
-    // Reset form sau khi gửi
-    setTimeout(() => this.successMessage = '', 3000);
+  resetNotification() {
+    setTimeout(() => {
+      this.successMessage = '';
+      this.showSuccessModal = false;
+      this.isError = false;
+    }, 3000);
   }
 }

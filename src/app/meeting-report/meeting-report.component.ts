@@ -27,6 +27,7 @@ import {
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
 import {min} from 'rxjs';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-meeting-report',
@@ -63,6 +64,7 @@ import {min} from 'rxjs';
     MatButtonModule,
     FormsModule,
     CommonModule,
+    ConfirmModalComponent,
   ],
   providers: [DatePipe],
   templateUrl: './meeting-report.component.html',
@@ -113,10 +115,13 @@ export class MeetingReportComponent implements OnInit {
       }
     });
   }
-
+  showSuccessModal = false;
+  successMessage = '';
   filterByDate(): void {
     if (!this.startDate || !this.endDate) {
-      alert('Please select both start and end dates');
+
+      this.successMessage = 'Please select both start date and end date!';
+      this.showSuccessModal = true;
       return;
     }
 
