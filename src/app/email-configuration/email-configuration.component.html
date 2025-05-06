@@ -53,3 +53,8 @@
 
   <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
 </div>
+<app-confirm-modal
+  [visible]="showSuccessModal"
+  [message]="successMessage"
+  (confirmed)="showSuccessModal = false">
+</app-confirm-modal>

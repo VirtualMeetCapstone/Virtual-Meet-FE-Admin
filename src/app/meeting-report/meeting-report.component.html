@@ -81,3 +81,8 @@
 
   <mat-paginator [pageSizeOptions]="[5, 7]"></mat-paginator>
 </div>
+<app-confirm-modal
+  [visible]="showSuccessModal"
+  [message]="successMessage"
+  (confirmed)="showSuccessModal = false">
+</app-confirm-modal>

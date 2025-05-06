@@ -1,9 +1,13 @@
 import {Component, input, OnInit} from '@angular/core';
 import {LogoServiceService} from '../Service/logo-service/logo-service.service';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-logo-configuration',
   templateUrl: './logo-configuration.component.html',
+  imports: [
+    ConfirmModalComponent
+  ],
   styleUrl: './logo-configuration.component.scss'
 })
 export class LogoConfigurationComponent implements OnInit {
@@ -35,7 +39,8 @@ export class LogoConfigurationComponent implements OnInit {
     }
   }
 
-
+  showSuccessModal = false;
+  successMessage = '';
   saveLogo(): void {
     if (!this.selectedFile) return;
     this.isLoading = true; // Bắt đầu loading
@@ -44,18 +49,15 @@ export class LogoConfigurationComponent implements OnInit {
       next: (res) => {
         this.isLoading = false; // Dừng loading
 
-        if (res?.success) {
-          alert('Logo updated successfully!');
-          this.logoUrl = URL.createObjectURL(this.selectedFile!);
-          this.selectedFile = null;
-        } else {
-          alert('Update failed!');
-        }
+        this.successMessage = 'Logo updated successfully!';
+        this.showSuccessModal = true;
       },
-      error: () => {
+      error: (err: { error: { message: any } }) => {
         this.isLoading = false; // Dừng loading
 
-        alert('An error occurred while uploading logo.');
+        console.error(err);
+        this.successMessage = err.error.message || 'Failed to update logo!';
+        this.showSuccessModal = true;
       }
     });
   }
